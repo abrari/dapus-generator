@@ -1,20 +1,61 @@
-<?php
-/* @var $this SiteController */
 
-$this->pageTitle=Yii::app()->name;
-?>
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/js/autosize.js" type="text/javascript"></script>
 
-<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
+<div class="jumbotron">
+    <div class="container">
 
-<p>Congratulations! You have successfully created your Yii application.</p>
+        <h1>Pembuatan Daftar Pustaka</h1>
+        <p>
+            Aplikasi web ini dapat membantu pembuatan sitasi untuk daftar pustaka secara semi-otomatis <br/>
+            dengan berpedoman pada Pedoman Penulisan Karya Ilmiah (PPKI) IPB.
+        </p>
 
-<p>You may change the content of this page by modifying the following two files:</p>
-<ul>
-	<li>View file: <code><?php echo __FILE__; ?></code></li>
-	<li>Layout file: <code><?php echo $this->getLayoutFile('main'); ?></code></li>
-</ul>
+        <form class="col-md-8 col-md-offset-2" action="" method="post">
+            <div class="form-group">
+                <label class="control-label" for="q">Masukkan judul artikel jurnal/prosiding atau judul buku</label>
+                <div>
+                    <textarea rows="1" class="form-control" placeholder="Masukkan judul" name="q" id="q"></textarea>
+                </div>
+            </div>
+            <button class="btn btn-success btn-lg" id="yw0" type="submit" name="yt0">Buat Sitasi</button>
+        </form>
+        
+    </div>        
+</div>
 
-<p>For more details on how to further develop this application, please read
-the <a href="http://www.yiiframework.com/doc/">documentation</a>.
-Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
-should you have any questions.</p>
+<div class="container">
+    <h3>... atau masukkan data sumber pustaka secara manual:</h3>
+    
+    <div class="alert alert-info">(Sedang dalam tahap pembangunan)</div>    
+</div>
+
+<!--
+<div class="container">
+    <h2>Pilih sesuai jenis pustaka:</h2>
+    
+    <div id="yw0">
+        <ul id="yw1" class="nav nav-tabs">
+            <li class="active">
+                <a data-toggle="tab" href="#yw0_tab_1">Jurnal/Prosiding</a></li>
+            <li>
+                <a data-toggle="tab" href="#yw0_tab_2">Buku</a></li>
+            <li>
+                <a data-toggle="tab" href="#yw0_tab_3">Skripsi/Tesis/Disertasi</a></li>
+            <li>
+                <a data-toggle="tab" href="#yw0_tab_4">Internet</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="yw0_tab_1" class="tab-pane fade active in">1</div>
+            <div id="yw0_tab_2" class="tab-pane fade">2</div>
+            <div id="yw0_tab_3" class="tab-pane fade">3</div>
+            <div id="yw0_tab_4" class="tab-pane fade">4</div>
+        </div>            
+    </div>            
+</div>
+-->
+
+<script type="text/javascript">
+$(document).ready(function(){
+    autosize($('#q'));
+});
+</script>

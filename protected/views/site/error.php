@@ -1,15 +1,9 @@
-<?php
-/* @var $this SiteController */
-/* @var $error array */
+<div class="jumbotron subhead">
+    <div class="container">
+        <h1>Error <?php echo $code; ?></h1>
+    </div>        
+</div>
 
-$this->pageTitle=Yii::app()->name . ' - Error';
-$this->breadcrumbs=array(
-	'Error',
-);
-?>
-
-<h2>Error <?php echo $code; ?></h2>
-
-<div class="error">
-<?php echo CHtml::encode($message); ?>
+<div class="container">
+    <?php echo CHtml::encode($message); ?>
 </div>

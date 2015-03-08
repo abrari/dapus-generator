@@ -1,12 +1,15 @@
 <?php
-/* @var $this SiteController */
 
-$this->pageTitle=Yii::app()->name . ' - About';
-$this->breadcrumbs=array(
-	'About',
-);
+$this->pageTitle=Yii::app()->name . ' - Tentang';
+
 ?>
-<h1>About</h1>
+<div class="jumbotron subhead">
+    <div class="container">
+        <h1>Tentang</h1>
+    </div>        
+</div>
 
-<p>This is a "static" page. You may change the content of this page
-by updating the file <code><?php echo __FILE__; ?></code>.</p>
+<div class="container">
+    <p>This is a "static" page. You may change the content of this page
+    by updating the file <code><?php echo __FILE__; ?></code>.</p>
+</div>
