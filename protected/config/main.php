@@ -7,10 +7,10 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'DAPUS - Pembuatan Daftar Pustaka',
+	'name'=>'DAPUS Generator - Pembuatan Daftar Pustaka',
 
 	// preloading 'log' component
-	'preload'=>array('log', 'booster'),
+	'preload'=>array('log', 'booster', 'curl'),
 
 	// autoloading model and component classes
 	'import'=>array(
@@ -40,6 +40,14 @@ return array(
 		'booster' => array(
 			'class' => 'ext.booster.components.Booster',
 			'responsiveCss' => true,
+                ),
+                'curl' => array(
+                        'class' => 'ext.curl.Curl',
+                        'options' => array(
+                            'setOptions' => array(
+                                CURLOPT_HEADER => false
+                            )
+                        )
                 ),
 		'urlManager'=>array(
 			'urlFormat'=>'path',

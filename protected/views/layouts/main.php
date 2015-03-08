@@ -17,7 +17,7 @@
         $this->widget(
             'booster.widgets.TbNavbar',
             array(
-                'brand' => 'DA<b>PUS</b>',
+                'brand' => 'DA<b>PUS</b> Generator',
                 'htmlOptions' => array('style' => "box-shadow: 0 1px 10px rgba(0,0,0,.1);"),
                 'items' => array(
                     array(

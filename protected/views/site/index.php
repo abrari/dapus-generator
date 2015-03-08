@@ -4,20 +4,20 @@
 <div class="jumbotron">
     <div class="container">
 
-        <h1>Pembuatan Daftar Pustaka</h1>
+        <h1>Pembuat Daftar Pustaka</h1>
         <p>
             Aplikasi web ini dapat membantu pembuatan sitasi untuk daftar pustaka secara semi-otomatis <br/>
             dengan berpedoman pada Pedoman Penulisan Karya Ilmiah (PPKI) IPB.
         </p>
 
-        <form class="col-md-8 col-md-offset-2" action="" method="post">
+        <form class="col-md-8 col-md-offset-2" action="search" method="post">
             <div class="form-group">
-                <label class="control-label" for="q">Masukkan judul artikel jurnal/prosiding atau judul buku</label>
+                <label class="control-label" for="q">Masukkan judul paper jurnal atau prosiding</label>
                 <div>
-                    <textarea rows="1" class="form-control" placeholder="Masukkan judul" name="q" id="q"></textarea>
+                    <textarea rows="1" class="form-control" placeholder="Masukkan judul paper lengkap" name="q" id="q"></textarea>
                 </div>
             </div>
-            <button class="btn btn-success btn-lg" id="yw0" type="submit" name="yt0">Buat Sitasi</button>
+            <button class="btn btn-success btn-lg" id="yw0" type="submit" name="yt0">Buat Daftar Pustaka</button>
         </form>
         
     </div>        

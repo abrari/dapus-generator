@@ -40,5 +40,56 @@ class SiteController extends Controller
 				$this->render('error', $error);
 		}
 	}
+        
+        private function searchCrossRef($query)
+        {
+            $url = "http://api.crossref.org/works?rows=1&query=" . urlencode($query);            
+            $apiRequest = Yii::app()->curl->run($url);
+            
+            if($apiRequest->hasErrors()) {
+                throw new CException('Gagal menghubungi server');
+            } else {
+                $apiResponse = CJSON::decode($apiRequest->getData());
+                if($apiResponse === null) {
+                    throw new CException("Gagal parsing data");
+                }
+                if($apiResponse['message']['total-results'] == 0) {
+                    throw new CException("Tidak ditemukan hasil");
+                }
+                
+                $foundTitle = $apiResponse['message']['items'][0]['title'][0];
+                $foundScore = $apiResponse['message']['items'][0]['score'];
+                if($foundScore < 2.0 || StringHelper::stringSimilarity($query, $foundTitle) < 80) {
+                    throw new CException("Tidak ditemukan hasil");
+                }
+                
+                $refType = $apiResponse['message']['items'][0]['type'];
+                switch($refType) {
+                    case 'journal-article': {
+                        
+                        }; break;
+                    case 'proceedings-article': {
+                        
+                        }; break;
+                    case 'book-chapter': {
+                        
+                        }; break;  
+                    default: 
+                        throw new CException("Tidak ditemukan hasil");
+                }
+                
+                CVarDumper::dump($refType,10,true);
+                echo "<br/><br/>";
+                CVarDumper::dump($apiResponse,10,true);
+            }
+            
+        }
+        
+        public function actionSearch()
+        {
+            $query = str_replace("\n", " ", $_POST['q']);
+            
+            $crossRef = $this->searchCrossRef($query);
+        }
 
 }
