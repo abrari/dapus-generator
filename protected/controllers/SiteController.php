@@ -50,6 +50,7 @@ class SiteController extends Controller
                 throw new CException('Gagal menghubungi server');
             } else {
                 $apiResponse = CJSON::decode($apiRequest->getData());
+                // CVarDumper::dump($apiResponse, 10, TRUE);
                 if($apiResponse === null) {
                     throw new CException("Gagal parsing data");
                 }
@@ -65,29 +66,58 @@ class SiteController extends Controller
                 
                 $refType = $apiResponse['message']['items'][0]['type'];
                 switch($refType) {
-                    case 'journal-article': {
+                    case 'journal-article':
+                        return $this->createJournal($apiResponse['message']['items'][0]);
+                    case 'proceedings-article':
                         
-                        }; break;
-                    case 'proceedings-article': {
-                        
-                        }; break;
-                    case 'book-chapter': {
-                        
-                        }; break;  
+                        break;
+                    case 'book-chapter':
+                        return $this->createBookChapter($apiResponse['message']['items'][0]);
                     default: 
                         throw new CException("Tidak ditemukan hasil");
                 }
-                
-                CVarDumper::dump($refType,10,true);
-                echo "<br/><br/>";
-                CVarDumper::dump($apiResponse,10,true);
+            }
+        }
+        
+        private function createJournal($data)
+        {
+            $journal = new Journal();
+            $journal->authors = isset($data['author']) ? $data['author'] : '[Anonim]';
+            $journal->year    = isset($data['issued']['date-parts'][0][0]) ? $data['issued']['date-parts'][0][0] : '[Tahun tidak diketahui]';
+            $journal->title   = isset($data['title'][0]) ? $data['title'][0] : '[Judul tidak diketahui]';
+            $journal->volume  = isset($data['volume']) ? $data['volume'] : '[Volume tidak diketahui]';
+            $journal->issue   = isset($data['issue']) ? $data['issue'] : '';
+            $journal->pages   = isset($data['page']) ? $data['page'] : '[Halaman tidak diketahui]';
+            $journal->doi     = isset($data['DOI']) ? $data['DOI'] : '';
+
+            $journalNames = isset($data['container-title']) ? $data['container-title'] : array();
+            $journalName = "";
+            if(count($journalNames) >= 2) { // Jurnal dan singkatannya
+                if(strlen($journalNames[0]) > strlen($journalNames[1]))
+                    $journalName = $journalNames[1]; // Ambil singkatannya
+                else
+                    $journalName = $journalNames[0];
+            } elseif(count($journalNames) == 1) {
+                $journalName = $journalNames[0];
+            } else {
+                $journalName = '[Jurnal tidak diketahui]';
             }
             
+            $journal->journal = $journalName;
+            
+            CVarDumper::dump($journal, 10, TRUE);
+        }
+        
+        private function createBookChapter($data)
+        {
+            CVarDumper::dump($data, 10, TRUE);
         }
         
         public function actionSearch()
         {
             $query = str_replace("\n", " ", $_POST['q']);
+            $query = str_replace(":", "", $query);
+            $query = preg_replace('!\s+!', ' ', $query);
             
             $crossRef = $this->searchCrossRef($query);
         }

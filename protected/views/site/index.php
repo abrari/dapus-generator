@@ -10,7 +10,7 @@
             dengan berpedoman pada Pedoman Penulisan Karya Ilmiah (PPKI) IPB.
         </p>
 
-        <form class="col-md-8 col-md-offset-2" action="search" method="post">
+        <form class="col-md-8 col-md-offset-2" action="<?php echo Yii::app()->request->baseUrl; ?>/site/search" method="post">
             <div class="form-group">
                 <label class="control-label" for="q">Masukkan judul paper jurnal atau prosiding</label>
                 <div>
