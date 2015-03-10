@@ -119,13 +119,13 @@ class SiteController extends Controller
         private function createJournal($data)
         {
             $journal = new Journal();
-            $journal->authors = isset($data['author']) ? $data['author'] : '[Anonim]';
-            $journal->year    = isset($data['issued']['date-parts'][0][0]) ? $data['issued']['date-parts'][0][0] : '[Tahun tidak diketahui]';
-            $journal->title   = isset($data['title'][0]) ? $data['title'][0] : '[Judul tidak diketahui]';
-            $journal->volume  = isset($data['volume']) ? $data['volume'] : '[Volume tidak diketahui]';
-            $journal->issue   = isset($data['issue']) ? $data['issue'] : '';
-            $journal->pages   = isset($data['page']) ? $data['page'] : '[Halaman tidak diketahui]';
-            $journal->doi     = isset($data['DOI']) ? $data['DOI'] : '';
+            $journal->authors = $data['author'];
+            $journal->year    = $data['issued']['date-parts'][0][0];
+            $journal->title   = $data['title'][0];
+            $journal->volume  = $data['volume'];
+            $journal->issue   = $data['issue'];
+            $journal->pages   = $data['page'];
+            $journal->doi     = $data['DOI'];
 
             $journalNames = isset($data['container-title']) ? $data['container-title'] : array();
             $journalName = "";
@@ -154,16 +154,16 @@ class SiteController extends Controller
             }
             
             $chapter = new BookChapter();
-            $chapter->authors = isset($data['author']) ? $data['author'] : '[Anonim]';
-            $chapter->year    = isset($data['issued']['date-parts'][0][0]) ? $data['issued']['date-parts'][0][0] : '[Tahun tidak diketahui]';
-            $chapter->title   = isset($data['title'][0]) ? $data['title'][0] : '[Judul tidak diketahui]';            
-            $chapter->pages   = isset($data['page']) ? $data['page'] : '[Halaman tidak diketahui]';
+            $chapter->authors = $data['author'];
+            $chapter->year    = $data['issued']['date-parts'][0][0];
+            $chapter->title   = $data['title'][0];            
+            $chapter->pages   = $data['page'];
             
             if($bookData !== null) {
                 $chapter->book_title = StringHelper::titleCase($bookData['title']);
                 $chapter->pub        = $bookData['publisher'];
                 $chapter->editors    = $bookData['author'];
-                $chapter->pub_city   = $bookData['city']; 
+                $chapter->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
                 $chapter->pub_country= $this->searchCityData($chapter->pub_city);
             } else {
                 $chapter->book_title = StringHelper::titleCase($data['container-title'][0]);

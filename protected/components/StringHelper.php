@@ -74,6 +74,9 @@ class StringHelper {
 	
 	//restore the HTML
 	foreach ($html[0] as &$tag) $title = substr_replace ($title, $tag[0], $tag[1], 0);
+        
+        // fix colon
+        $title = str_replace(" : ", ": ", $title);
 	return $title;
     }    
     
