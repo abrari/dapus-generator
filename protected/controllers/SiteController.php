@@ -208,5 +208,24 @@ class SiteController extends Controller
             
             $crossRef = $this->searchCrossRef($query);
         }
+        
+        public function actionTest()
+        {
+            Yii::setPathOfAlias('StanfordNLP', Yii::app()->basePath . '/components/StanfordNLP');
+            
+            $ner = new StanfordNLP\NERTagger(
+                Yii::app()->params['stanfordNerPath'] . 'classifiers/english.muc.7class.distsim.crf.ser.gz',
+                Yii::app()->params['stanfordNerPath'] . 'stanford-ner.jar'    
+            );
+            
+            $result = $ner->tag(explode('.', "ICERI 2013 conference proceedings. 6th International conference of education, research and innovation, November 19th-20th, 2012, New Seville, Spain ; [edited by L. Gómez Chova, A. López Martínez, I. Candel Torres]."));
+            
+            CVarDumper::dump($result);
+            
+            $loc = StringHelper::parseNerDate($result);
+            
+            CVarDumper::dump($loc);
+            
+        }
 
 }

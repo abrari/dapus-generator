@@ -115,4 +115,85 @@ class StringHelper {
         return $cities[$idx];
     }
     
+    // parse persons dari hasil Stanford NER
+    public static function parseNerPerson($result)
+    {
+        $persons = array();
+
+        // merge adjacent entities
+        $j = 0;
+        $length = count($result);
+        for($i = 0; $i < $length; $i++) {
+            if($result[$i][1] == 'PERSON') {
+                $name = $result[$i][0];
+                $j = $i + 1;
+                while($j < $length && $result[$j][1] == 'PERSON') {
+                    $name .= ' ' . $result[$j][0];
+                    $j++;
+                }
+                $i = $j;
+                $persons[] = $name;
+            }
+        }        
+        
+        if(count($persons) > 0)
+            return $persons;
+        else
+            return null;
+    }
+    
+    // parse lokasi dari hasil Stanford NER
+    public static function parseNerLocation($result)
+    {
+        $locations = array();
+
+        $j = 0;
+        $length = count($result);
+        for($i = 0; $i < $length; $i++) {
+            if($result[$i][1] == 'LOCATION') {
+                $v = $result[$i][0];
+                $j = $i + 1;
+                while($j < $length && $result[$j][1] == 'LOCATION') {
+                    $v .= ' ' . $result[$j][0];
+                    $j++;
+                }
+                $i = $j;
+                $locations[] = str_replace(",", "", $v);
+            }
+        }           
+        
+        if(count($locations) > 0)
+            return implode(', ', $locations);
+        else
+            return '';
+    }
+
+    // parse tanggal dari hasil Stanford NER
+    public static function parseNerDate($result)
+    {
+        $date = array();
+
+        $j = 0;
+        $length = count($result);
+        for($i = 0; $i < $length; $i++) {
+            if($result[$i][1] == 'DATE') {
+                $v = $result[$i][0];
+                $j = $i + 1;
+                while($j < $length && $result[$j][1] == 'DATE') {
+                    $v .= ' ' . $result[$j][0];
+                    $j++;
+                }
+                $i = $j;
+                $date[] = str_replace(",", "", $v);
+            }
+        }              
+        
+        $udate = array_unique($date);
+        
+        if(count($udate) > 0)
+            return implode(' ', $udate);
+        else
+            return '';
+    }    
+    
 }

@@ -37,7 +37,7 @@ class CVarDumper
 	 * @param integer $depth maximum depth that the dumper should go into the variable. Defaults to 10.
 	 * @param boolean $highlight whether the result should be syntax-highlighted
 	 */
-	public static function dump($var,$depth=10,$highlight=false)
+	public static function dump($var,$depth=10,$highlight=true)
 	{
 		echo self::dumpAsString($var,$depth,$highlight);
 	}
