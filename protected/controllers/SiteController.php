@@ -79,6 +79,43 @@ class SiteController extends Controller
             }
         }
         
+        private function searchBookData($isbn)
+        {
+            $isbn = StringHelper::getISBN($isbn);            
+            $url = "http://xisbn.worldcat.org/webservices/xid/isbn/" . urlencode($isbn) . "?method=getMetadata&format=json&fl=*";
+            
+            $apiRequest = Yii::app()->curl->run($url);
+            
+            if($apiRequest->hasErrors()) {
+                throw new CException('Gagal menghubungi server ISBN');
+            } else {
+                $apiResponse = CJSON::decode($apiRequest->getData());
+                if($apiResponse === null) {
+                    throw new CException("Gagal parsing data ISBN");
+                }            
+                if($apiResponse['stat'] !== 'ok') {
+                    throw new CException("Tidak ditemukan hasil ISBN");
+                }                
+                
+                return $apiResponse['list'][0];
+            }
+        }
+        
+        private function searchCityData($city)
+        {
+            $cities = Yii::app()->curl->run("http://gd.geobytes.com/AutoCompleteCity?q=" . urlencode($city));
+            if(!$cities->hasErrors()) {
+                $city = CJSON::decode($cities->getData())[0];
+                $cityData = Yii::app()->curl->run("http://gd.geobytes.com/GetCityDetails?fqcn=" . urlencode($city));
+                if(!$cityData->hasErrors()) {
+                    $country = CJSON::decode($cityData->getData());
+                    return $country['geobytesinternet'];
+                }                
+                return "";
+            }
+            return "";
+        }
+        
         private function createJournal($data)
         {
             $journal = new Journal();
@@ -110,7 +147,30 @@ class SiteController extends Controller
         
         private function createBookChapter($data)
         {
-            CVarDumper::dump($data, 10, TRUE);
+            try {
+                $bookData = $this->searchBookData($data['ISBN'][0]);
+            } catch (CException $e) {
+                $bookData = null;
+            }
+            
+            $chapter = new BookChapter();
+            $chapter->authors = isset($data['author']) ? $data['author'] : '[Anonim]';
+            $chapter->year    = isset($data['issued']['date-parts'][0][0]) ? $data['issued']['date-parts'][0][0] : '[Tahun tidak diketahui]';
+            $chapter->title   = isset($data['title'][0]) ? $data['title'][0] : '[Judul tidak diketahui]';            
+            $chapter->pages   = isset($data['page']) ? $data['page'] : '[Halaman tidak diketahui]';
+            
+            if($bookData !== null) {
+                $chapter->book_title = StringHelper::titleCase($bookData['title']);
+                $chapter->pub        = $bookData['publisher'];
+                $chapter->editors    = $bookData['author'];
+                $chapter->pub_city   = $bookData['city']; 
+                $chapter->pub_country= $this->searchCityData($chapter->pub_city);
+            } else {
+                $chapter->book_title = StringHelper::titleCase($data['container-title'][0]);
+                $chapter->pub        = $data['publisher'];
+            }
+            
+            CVarDumper::dump($chapter, 10, TRUE);
         }
         
         public function actionSearch()
