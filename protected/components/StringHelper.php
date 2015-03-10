@@ -78,6 +78,41 @@ class StringHelper {
         // fix colon
         $title = str_replace(" : ", ": ", $title);
 	return $title;
-    }    
+    }
+    
+    // parse book editors names to array
+    public static function parseEditors($str)
+    {
+        $editors = array();
+        foreach(explode(",", $str) as $_name) {
+            $_name = trim($_name);
+            $name = array();
+            foreach(explode(" ", $_name) as $c) {
+                $c = trim($c, " .");
+                if(ctype_upper($c[0])) {
+                    $name[] = $c;
+                }
+            }
+            $name = implode(" ", $name);
+            $editors[] = $name;
+        }
+        return $editors;
+    }
+    
+    // pilih kota yang sebisa mungkin di luar US (kalau ada)
+    public static function cityNonUS($cities)
+    {
+        $i = 0;
+        $idx = 0;
+        foreach($cities as $city) {
+            $city = strtolower($city);
+            if(strpos($city, "united states") === false) {
+                $idx = $i;
+                break;
+            }
+            $i++;
+        }
+        return $cities[$idx];
+    }
     
 }

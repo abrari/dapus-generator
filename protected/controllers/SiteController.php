@@ -105,7 +105,7 @@ class SiteController extends Controller
         {
             $cities = Yii::app()->curl->run("http://gd.geobytes.com/AutoCompleteCity?q=" . urlencode($city));
             if(!$cities->hasErrors()) {
-                $city = CJSON::decode($cities->getData())[0];
+                $city = StringHelper::cityNonUS(CJSON::decode($cities->getData()));
                 $cityData = Yii::app()->curl->run("http://gd.geobytes.com/GetCityDetails?fqcn=" . urlencode($city));
                 if(!$cityData->hasErrors()) {
                     $country = CJSON::decode($cityData->getData());
@@ -162,7 +162,7 @@ class SiteController extends Controller
             if($bookData !== null) {
                 $chapter->book_title = StringHelper::titleCase($bookData['title']);
                 $chapter->pub        = $bookData['publisher'];
-                $chapter->editors    = $bookData['author'];
+                $chapter->editors    = StringHelper::parseEditors($bookData['author']);
                 $chapter->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
                 $chapter->pub_country= $this->searchCityData($chapter->pub_city);
             } else {
