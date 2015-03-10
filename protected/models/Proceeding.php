@@ -16,9 +16,9 @@ class Proceeding extends CModel {
     public $con_city;
     public $con_country;
     public $pub_city;
+    public $pub_country;
     public $pub;    
     public $pages;
-    public $isbn;
     
     public function attributeNames() {
         return array(
@@ -31,9 +31,9 @@ class Proceeding extends CModel {
             'con_city' => 'Kota konferensi',
             'con_country' => 'Negara konferensi',
             'pub_city' => 'Kota penerbit',
+            'pub_country' => 'Negara penerbit',
             'pub' => 'Penerbit',
             'pages' => 'Halaman',
-            'isbn' => 'ISBN'
         );
     }
 

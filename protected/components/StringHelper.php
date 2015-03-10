@@ -89,7 +89,7 @@ class StringHelper {
             $name = array();
             foreach(explode(" ", $_name) as $c) {
                 $c = trim($c, " .");
-                if(ctype_upper($c[0])) {
+                if($c !== '' && ctype_upper($c[0])) {
                     $name[] = $c;
                 }
             }

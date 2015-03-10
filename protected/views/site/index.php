@@ -24,9 +24,15 @@
 </div>
 
 <div class="container">
-    <h3>... atau masukkan data sumber pustaka secara manual:</h3>
+    <h3>Beberapa keterbatasan</h3>
     
-    <div class="alert alert-info">(Sedang dalam tahap pembangunan)</div>    
+    <p>Aplikasi web ini memiliki beberapa keterbatasan, antara lain</p>
+    <ul>
+        <li>Hanya mampu mencari paper jurnal, prosiding, atau bab dari buku</li>
+        <li>Hanya mampu mencari paper berbahasa Inggris, terutama yang terindeks</li>
+        <li>Kapitalisasi judul harus disesuaikan secara manual</li>
+        <li>Untuk prosiding, nomor halaman harus dimasukkan sendiri</li>
+    </ul>
 </div>
 
 <!--

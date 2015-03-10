@@ -69,8 +69,7 @@ class SiteController extends Controller
                     case 'journal-article':
                         return $this->createJournal($apiResponse['message']['items'][0]);
                     case 'proceedings-article':
-                        
-                        break;
+                        return $this->createProceeding($apiResponse['message']['items'][0]);
                     case 'book-chapter':
                         return $this->createBookChapter($apiResponse['message']['items'][0]);
                     default: 
@@ -172,6 +171,34 @@ class SiteController extends Controller
             
             CVarDumper::dump($chapter, 10, TRUE);
         }
+
+        private function createProceeding($data)
+        {
+            try {
+                $bookData = $this->searchBookData($data['ISBN'][0]);
+            } catch (CException $e) {
+                $bookData = null;
+            }
+            
+            $proc = new Proceeding();
+            $proc->authors = $data['author'];
+            $proc->year    = $data['issued']['date-parts'][0][0];
+            $proc->title   = $data['title'][0];            
+            $proc->pages   = '';        // sigh
+            
+            if($bookData !== null) {
+                $proc->con_name   = StringHelper::titleCase($bookData['title']);
+                $proc->pub        = $bookData['publisher'];
+                $proc->editors    = StringHelper::parseEditors($bookData['author']);
+                $proc->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
+                $proc->pub_country= $this->searchCityData($proc->pub_city);
+            } else {
+                $proc->book_title = StringHelper::titleCase($data['container-title'][0]);
+                $proc->pub        = $data['publisher'];
+            }
+            
+            CVarDumper::dump($proc, 10, TRUE);
+        }        
         
         public function actionSearch()
         {
