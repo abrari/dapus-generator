@@ -11,10 +11,9 @@ class Proceeding extends CModel {
     public $year;
     public $title;
     public $editors;
-    public $con_name;
+    public $proc_name;
     public $con_date;
     public $con_city;
-    public $con_country;
     public $pub_city;
     public $pub_country;
     public $pub;    
@@ -26,10 +25,9 @@ class Proceeding extends CModel {
             'year' => 'Tahun',
             'title' => 'Judul artikel',
             'editors' => 'Editor',
-            'con_name' => 'Nama konferensi',
+            'proc_name' => 'Nama konferensi',
             'con_date' => 'Tanggal konferensi',
             'con_city' => 'Kota konferensi',
-            'con_country' => 'Negara konferensi',
             'pub_city' => 'Kota penerbit',
             'pub_country' => 'Negara penerbit',
             'pub' => 'Penerbit',

@@ -102,6 +102,7 @@ class SiteController extends Controller
         
         private function searchCityData($city)
         {
+            $city = preg_replace("/[^A-Za-z0-9 \-']/", "", $city);
             $cities = Yii::app()->curl->run("http://gd.geobytes.com/AutoCompleteCity?q=" . urlencode($city));
             if(!$cities->hasErrors()) {
                 $city = StringHelper::cityNonUS(CJSON::decode($cities->getData()));
@@ -184,16 +185,25 @@ class SiteController extends Controller
             $proc->authors = $data['author'];
             $proc->year    = $data['issued']['date-parts'][0][0];
             $proc->title   = $data['title'][0];            
-            $proc->pages   = '';        // sigh
+            $proc->proc_name  = StringHelper::titleCase($data['container-title'][0]);
+            $proc->pages   = null;        // sigh. no info available
             
             if($bookData !== null) {
-                $proc->con_name   = StringHelper::titleCase($bookData['title']);
                 $proc->pub        = $bookData['publisher'];
-                $proc->editors    = StringHelper::parseEditors($bookData['author']);
                 $proc->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
+                $proc->pub_city   = preg_replace("/[^A-Za-z0-9 \-']/", "", $proc->pub_city); // additional filtering
                 $proc->pub_country= $this->searchCityData($proc->pub_city);
+                
+                // editors, con_date, con_city uses Stanford NER
+                // sometimes editors in author, sometimes in title~
+                $combined = $bookData['author'] . ' ' . $bookData['title'];
+                $ner_result = StringHelper::NER($combined);
+                
+                $proc->editors    = StringHelper::parseNerPerson($ner_result);
+                $proc->con_date   = StringHelper::parseNerDate($ner_result);
+                $proc->con_city   = StringHelper::parseNerLocation($ner_result);
+                
             } else {
-                $proc->book_title = StringHelper::titleCase($data['container-title'][0]);
                 $proc->pub        = $data['publisher'];
             }
             
@@ -207,25 +217,6 @@ class SiteController extends Controller
             $query = preg_replace('!\s+!', ' ', $query);
             
             $crossRef = $this->searchCrossRef($query);
-        }
-        
-        public function actionTest()
-        {
-            Yii::setPathOfAlias('StanfordNLP', Yii::app()->basePath . '/components/StanfordNLP');
-            
-            $ner = new StanfordNLP\NERTagger(
-                Yii::app()->params['stanfordNerPath'] . 'classifiers/english.muc.7class.distsim.crf.ser.gz',
-                Yii::app()->params['stanfordNerPath'] . 'stanford-ner.jar'    
-            );
-            
-            $result = $ner->tag(explode('.', "ICERI 2013 conference proceedings. 6th International conference of education, research and innovation, November 19th-20th, 2012, New Seville, Spain ; [edited by L. Gómez Chova, A. López Martínez, I. Candel Torres]."));
-            
-            CVarDumper::dump($result);
-            
-            $loc = StringHelper::parseNerDate($result);
-            
-            CVarDumper::dump($loc);
-            
         }
 
 }

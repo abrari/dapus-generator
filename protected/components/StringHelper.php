@@ -115,6 +115,20 @@ class StringHelper {
         return $cities[$idx];
     }
     
+    // do named entity recognition
+    public static function NER($sentences)
+    {
+        Yii::setPathOfAlias('StanfordNLP', Yii::app()->basePath . '/components/StanfordNLP');
+
+        $ner = new StanfordNLP\NERTagger(
+            Yii::app()->params['stanfordNerPath'] . 'classifiers/english.muc.7class.distsim.crf.ser.gz',
+            Yii::app()->params['stanfordNerPath'] . 'stanford-ner.jar'    
+        );
+
+        $result = $ner->tag(explode('.', $sentences));
+        return $result;
+    }    
+    
     // parse persons dari hasil Stanford NER
     public static function parseNerPerson($result)
     {
