@@ -19,7 +19,8 @@ class StringHelper {
     
     public static function getISBN($url)
     {
-        $isbn = end(explode("/", $url));
+        $url = explode("/", $url);  // bugfix
+        $isbn = end($url);
         return str_replace("-", "", $isbn);
     }
     

@@ -58,6 +58,12 @@ class SiteController extends Controller
                     throw new CException("Tidak ditemukan hasil");
                 }
                 
+                // use subtitle if exist
+                if(count($apiResponse['message']['items'][0]['subtitle']) > 0) {
+                    $subTitle = $apiResponse['message']['items'][0]['subtitle'][0];
+                    $apiResponse['message']['items'][0]['title'][0] .= ': ' . $subTitle;
+                }
+                
                 $foundTitle = $apiResponse['message']['items'][0]['title'][0];
                 $foundScore = $apiResponse['message']['items'][0]['score'];
                 if($foundScore < 2.0 || StringHelper::stringSimilarity($query, $foundTitle) < 80) {
@@ -72,6 +78,8 @@ class SiteController extends Controller
                         return $this->createProceeding($apiResponse['message']['items'][0]);
                     case 'book-chapter':
                         return $this->createBookChapter($apiResponse['message']['items'][0]);
+                    case 'reference-entry':
+                        return $this->createBookChapter($apiResponse['message']['items'][0]);                        
                     default: 
                         throw new CException("Tidak ditemukan hasil");
                 }
@@ -162,9 +170,16 @@ class SiteController extends Controller
             if($bookData !== null) {
                 $chapter->book_title = StringHelper::titleCase($bookData['title']);
                 $chapter->pub        = $bookData['publisher'];
-                $chapter->editors    = StringHelper::parseEditors($bookData['author']);
-                $chapter->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
+                $chapter->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : explode(",", $bookData['city'])[0]; 
                 $chapter->pub_country= $this->searchCityData($chapter->pub_city);
+                
+                // editors uses Stanford NER
+                // sometimes editors in author, sometimes in title~
+                $combined = $bookData['author'] . ' ' . $bookData['title'];
+                $ner_result = StringHelper::NER($combined);
+                
+                $chapter->editors    = StringHelper::parseNerPerson($ner_result);
+                
             } else {
                 $chapter->book_title = StringHelper::titleCase($data['container-title'][0]);
                 $chapter->pub        = $data['publisher'];
@@ -190,7 +205,7 @@ class SiteController extends Controller
             
             if($bookData !== null) {
                 $proc->pub        = $bookData['publisher'];
-                $proc->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
+                $proc->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : explode(",", $bookData['city'])[0]; 
                 $proc->pub_city   = preg_replace("/[^A-Za-z0-9 \-']/", "", $proc->pub_city); // additional filtering
                 $proc->pub_country= $this->searchCityData($proc->pub_city);
                 

@@ -5,5 +5,7 @@
 </div>
 
 <div class="container">
+    File: <?php echo CHtml::encode($file); ?><br/>
+    Line: <?php echo CHtml::encode($line); ?><br/>
     <?php echo CHtml::encode($message); ?>
 </div>
