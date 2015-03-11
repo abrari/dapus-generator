@@ -90,6 +90,7 @@ return array(
 	'params'=>array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
-                'stanfordNerPath'=>'/home/abrari/stanford-ner/'
+                'stanfordNerPath'=>'/home/abrari/stanford-ner/',
+                'grobidPath'=>'/home/abrari/grobid/'
 	),
 );

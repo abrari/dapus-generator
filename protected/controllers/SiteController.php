@@ -233,5 +233,56 @@ class SiteController extends Controller
             
             $crossRef = $this->searchCrossRef($query);
         }
+        
+        public function actionUpload()
+        {
+            $tempFolder = tempnam("/tmp", "DAPUS_");
+            unlink($tempFolder);
+            
+            mkdir($tempFolder);
+            
+            if($_FILES['PDFUpload']['error']['pdf'] === 0) {
+                
+                $model=new PDFUpload();
+                $model->attributes = $_POST['PDFUpload'];
+                $model->pdf = CUploadedFile::getInstance($model,'pdf');
+                
+                if($model->validate()) {
+                    $uploaded = $model->pdf->saveAs($tempFolder.'/input.pdf');
+
+                    if($uploaded) {
+                        
+                        $g = new Grobid();
+                        $g->setGrobidJar(Yii::app()->params['grobidPath'] . 'grobid-core/target/grobid-core-0.3.3-SNAPSHOT.one-jar.jar');
+                        $g->setGrobidHome(Yii::app()->params['grobidPath'] . 'grobid-home/');
+                        $g->setIn($tempFolder);
+                        $g->setOut($tempFolder);
+                        $g->setProcess('processHeader');
+                        
+                        try {
+                            $grobidResult = $g->run();
+                            
+                            list($g_doi, $g_title) = StringHelper::parseGrobid($grobidResult);
+                            echo $g_doi . '<br/>' . $g_title;     
+                            
+                        } catch (Exception $e) {
+                            
+                            CFileHelper::removeDirectory($tempFolder);
+                        }
+                        
+                    } else {
+                        CFileHelper::removeDirectory($tempFolder);
+                        throw new CException("Upload gagal dengan kode error: {$model->pdf->getError()}.");
+                    }                    
+                } else {
+                    CFileHelper::removeDirectory($tempFolder);
+                    throw new CException("Kesalahan dokumen (harus PDF).");
+                }                
+            }
+            
+            // cleanup
+            CFileHelper::removeDirectory($tempFolder);
+            
+        }
 
 }

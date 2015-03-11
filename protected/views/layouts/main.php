@@ -8,6 +8,7 @@
         
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/styles.css" rel="stylesheet" />
+        <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/js/filestyle.min.js"> </script>
         
 </head>
 

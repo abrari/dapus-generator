@@ -209,6 +209,27 @@ class StringHelper {
             return implode(' ', $udate);
         else
             return '';
-    }    
+    }
+    
+    // parse XML hasil Grobid
+    public static function parseGrobid(SimpleXMLElement $xml)
+    {
+        $ret = array('', ''); // DOI, title
+        
+        // check if DOI exist
+        if (isset($xml->teiHeader->fileDesc->sourceDesc->biblStruct->idno) &&
+            $xml->teiHeader->fileDesc->sourceDesc->biblStruct->idno['type'] == 'DOI') 
+        {
+            $ret[0] = $xml->teiHeader->fileDesc->sourceDesc->biblStruct->idno;
+        }
+        
+        // check title
+        if (isset($xml->teiHeader->fileDesc->titleStmt->title))
+        {
+            $ret[1] = $xml->teiHeader->fileDesc->titleStmt->title;
+        }        
+        
+        return $ret;
+    }
     
 }
