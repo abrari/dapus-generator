@@ -43,6 +43,10 @@ class SiteController extends Controller
         
         private function searchCrossRef($query)
         {
+            $query = str_replace("\n", " ", $query);
+            $query = str_replace(":", "", $query);
+            $query = preg_replace('!\s+!', ' ', $query);            
+            
             $url = "http://api.crossref.org/works?rows=1&query=" . urlencode($query);            
             $apiRequest = Yii::app()->curl->run($url);
             
@@ -85,6 +89,38 @@ class SiteController extends Controller
                 }
             }
         }
+
+        private function searchCrossRefDOI($doi)
+        {
+            $doi = preg_replace('!\s+!', ' ', $doi);
+            
+            $url = "http://api.crossref.org/works/" . $doi;            
+            $apiRequest = Yii::app()->curl->run($url);
+            
+            if($apiRequest->hasErrors()) {
+                throw new CException('Gagal menghubungi server');
+            } else {
+                $apiResponse = CJSON::decode($apiRequest->getData());
+                
+                if($apiResponse === null) {
+                    throw new CException("Tidak ditemukan hasil");
+                }
+                
+                $refType = $apiResponse['message']['type'];
+                switch($refType) {
+                    case 'journal-article':
+                        return $this->createJournal($apiResponse['message']);
+                    case 'proceedings-article':
+                        return $this->createProceeding($apiResponse['message']);
+                    case 'book-chapter':
+                        return $this->createBookChapter($apiResponse['message']);
+                    case 'reference-entry':
+                        return $this->createBookChapter($apiResponse['message']);
+                    default: 
+                        throw new CException("Tidak ditemukan hasil");
+                }
+            }
+        }        
         
         private function searchBookData($isbn)
         {
@@ -225,15 +261,6 @@ class SiteController extends Controller
             CVarDumper::dump($proc, 10, TRUE);
         }        
         
-        public function actionSearch()
-        {
-            $query = str_replace("\n", " ", $_POST['q']);
-            $query = str_replace(":", "", $query);
-            $query = preg_replace('!\s+!', ' ', $query);
-            
-            $crossRef = $this->searchCrossRef($query);
-        }
-        
         public function actionUpload()
         {
             $tempFolder = tempnam("/tmp", "DAPUS_");
@@ -259,16 +286,17 @@ class SiteController extends Controller
                         $g->setOut($tempFolder);
                         $g->setProcess('processHeader');
                         
-                        try {
-                            $grobidResult = $g->run();
-                            
-                            list($g_doi, $g_title) = StringHelper::parseGrobid($grobidResult);
-                            echo $g_doi . '<br/>' . $g_title;     
-                            
-                        } catch (Exception $e) {
-                            
-                            CFileHelper::removeDirectory($tempFolder);
+                        $grobidResult = $g->run();                            
+                        list($g_doi, $g_title) = StringHelper::parseGrobid($grobidResult);
+
+                        if($g_doi !== '') {
+                            $this->searchCrossRefDOI($g_doi);
+                        } else if($g_title !== '') {
+                            $this->searchCrossRef($g_title);
+                        } else {
+                            throw new CException("Tidak ditemukan hasil");
                         }
+                            
                         
                     } else {
                         CFileHelper::removeDirectory($tempFolder);

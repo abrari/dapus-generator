@@ -27,17 +27,6 @@
             </div>
         </form>        
         
-        <?php /*
-        <form class="col-md-8 col-md-offset-2" action="<?php echo Yii::app()->request->baseUrl; ?>/site/search" method="post">
-            <div class="form-group">
-                <label class="control-label" for="q">Masukkan judul paper jurnal atau prosiding</label>
-                <div>
-                    <textarea rows="1" class="form-control" placeholder="Masukkan judul paper lengkap" name="q" id="q"></textarea>
-                </div>
-            </div>
-            <button class="btn btn-success btn-lg" id="yw0" type="submit" name="yt0">Buat Daftar Pustaka</button>
-        </form> */ ?>
-        
     </div>        
 </div>
 
@@ -52,9 +41,3 @@
         <li>Untuk prosiding, nomor halaman harus dimasukkan sendiri</li>
     </ul>        
 </div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    autosize($('#q'));
-});
-</script>
