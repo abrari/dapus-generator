@@ -16,7 +16,7 @@
                 <div>            
                     <?php
                         $model = new PDFUpload();
-                        echo CHtml::activeFileField($model, 'pdf', array('class'=>'filestyle','data-size'=>'lg','data-buttonText'=>'&nbsp;&nbsp;Cari File'));
+                        echo CHtml::activeFileField($model, 'pdf', array('class'=>'filestyle','data-buttonText'=>'&nbsp;&nbsp;Cari File'));
                     ?>
                 </div>
             </div>
@@ -31,13 +31,27 @@
 </div>
 
 <div class="container">    
-    <h3>Beberapa keterbatasan</h3>
-    
-    <p>Aplikasi web ini memiliki beberapa keterbatasan, antara lain</p>
-    <ul>
-        <li>Hanya mampu mencari paper jurnal, prosiding, atau bab dari buku</li>
-        <li>Hanya mampu mencari paper berbahasa Inggris, terutama yang terindeks SCOPUS</li>
-        <li>Kapitalisasi judul harus disesuaikan secara manual</li>
-        <li>Untuk prosiding, nomor halaman harus dimasukkan sendiri</li>
-    </ul>        
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Cara penggunaan</h3>
+            
+            <ol>
+                <li>Cari file PDF paper yang ingin dibuat sitasinya</li>
+                <li>Klik tombol "Buat Daftar Pustaka"</li>
+                <li>Periksa kembali hasil yang diberikan oleh sistem</li>
+            </ol>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Beberapa keterbatasan</h3>
+
+            <p>Aplikasi web ini memiliki beberapa keterbatasan, antara lain</p>
+            <ul>
+                <li>Hanya mampu mencari paper jurnal, prosiding, atau bab dari buku</li>
+                <li>Hanya mampu mencari paper berbahasa Inggris, terutama yang terindeks SCOPUS</li>
+                <li>Kapitalisasi judul harus disesuaikan secara manual</li>
+                <li>Untuk prosiding, nomor halaman harus dimasukkan sendiri</li>
+            </ul>        
+        </div>
+    </div>
 </div>
