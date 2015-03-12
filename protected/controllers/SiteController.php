@@ -76,7 +76,9 @@ class SiteController extends Controller
                         } else {
                             throw new CException("Tidak ditemukan hasil");
                         }
-                            
+                        
+                        echo $reference->formatAuthors();
+                        CVarDumper::dump($reference);
                         
                     } else {
                         CFileHelper::removeDirectory($tempFolder);

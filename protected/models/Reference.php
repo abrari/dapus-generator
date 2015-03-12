@@ -10,6 +10,28 @@ class Reference extends CModel {
     public function attributeNames() {
         return array();
     }
+    
+    public function formatAuthors()
+    {
+        // format crossRef authors
+        $authorsFormatted = array();
+        
+        $i = 0;
+        foreach($this->authors as $author) {
+            $name = $author['family'] . ' ' . StringHelper::initials($author['given']);
+            $authorsFormatted[] = $name;
+            
+            $i++;
+            if($i == 10) {
+                $authorsFormatted[9] .= ' <i>et al</i>';
+                break;
+            }
+        }
+        
+        $authorsString = implode(', ', $authorsFormatted);
+        
+        return $authorsString;
+    }
 
     public function createJournal($data)
     {
@@ -37,8 +59,6 @@ class Reference extends CModel {
 
         $journal->journal = $journalName;
 
-        CVarDumper::dump($journal, 10, TRUE);
-        
         return $journal;
     }
 
@@ -74,8 +94,6 @@ class Reference extends CModel {
             $chapter->pub        = $data['publisher'];
         }
 
-        CVarDumper::dump($chapter, 10, TRUE);
-        
         return $chapter;
     }
 
@@ -113,8 +131,6 @@ class Reference extends CModel {
             $proc->pub        = $data['publisher'];
         }
 
-        CVarDumper::dump($proc, 10, TRUE);
-        
         return $proc;
     }        
 

@@ -5,7 +5,7 @@
  *
  * @author abrari
  */
-class Proceeding extends CModel {
+class Proceeding extends Reference {
     
     public $authors;
     public $year;

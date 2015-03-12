@@ -5,7 +5,7 @@
  *
  * @author abrari
  */
-class BookChapter extends CModel {
+class BookChapter extends Reference {
     
     public $authors;
     public $year;

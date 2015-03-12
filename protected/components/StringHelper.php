@@ -17,6 +17,17 @@ class StringHelper {
         return floatval($percent);
     }
     
+    public static function initials($name)
+    {
+        $name = str_replace(array('.',',','-'), ' ', $name); // clean
+        $nword = explode(" ", $name); 
+        foreach($nword as $n){
+            $n = trim($n);
+            $new_name .= $n[0];
+        } 
+        return strtoupper($new_name);         
+    }
+    
     public static function getISBN($url)
     {
         $url = explode("/", $url);  // bugfix
