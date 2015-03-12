@@ -42,13 +42,13 @@ class SiteController extends Controller
 	}
                 
         public function actionUpload()
-        {
-            $tempFolder = tempnam("/tmp", "DAPUS_");
-            unlink($tempFolder);
-            
-            mkdir($tempFolder);
-            
+        {         
             if($_FILES['PDFUpload']['error']['pdf'] === 0) {
+
+                $tempFolder = tempnam("/tmp", "DAPUS_");
+                unlink($tempFolder);
+
+                mkdir($tempFolder);
                 
                 $model=new PDFUpload();
                 $model->attributes = $_POST['PDFUpload'];
@@ -97,11 +97,12 @@ class SiteController extends Controller
                     CFileHelper::removeDirectory($tempFolder);
                     throw new CException("Kesalahan dokumen (harus PDF).");
                 }                
-            }
-            
-            // cleanup
-            CFileHelper::removeDirectory($tempFolder);
-            
+                
+                // cleanup
+                CFileHelper::removeDirectory($tempFolder);                
+            } else {
+                $this->redirect(array('site/index'));
+            }            
         }
         
         public function actionResult($oid)
@@ -110,6 +111,7 @@ class SiteController extends Controller
             
             $reference = unserialize($submission->object);
             
+            CVarDumper::dump($submission);
             CVarDumper::dump($reference);
         }
 

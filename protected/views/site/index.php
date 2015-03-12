@@ -55,3 +55,36 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Harap tunggu</h4>
+            </div>
+            <div class="modal-body">
+                <p>Sedang memproses...</p>
+                <div class="progress progress-striped active" style="height: 10px">
+                  <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                  </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+$('#form').submit(function(event){
+    if($('#PDFUpload_pdf').val() === '') {
+        event.preventDefault();
+    } else {
+        $('#loading').modal({
+            backdrop : "static",
+            keyboard : false
+        });
+    }    
+});
+
+</script>
