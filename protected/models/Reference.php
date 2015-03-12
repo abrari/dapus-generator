@@ -34,6 +34,27 @@ class Reference extends CModel {
         
         return $authorsString;
     }
+    
+    public function formatAuthorsInline()
+    {
+        // for inline citation (in text)
+        $count = count($this->authors);
+        
+        if($count == 0) {
+            return '[Anonim]';
+        } else if($count == 1) {
+            $name = $this->authors[0]['family'];
+            return $name;
+        } else if($count == 2) {
+            $name  = $this->authors[0]['family'];
+            $name .= ' dan ';
+            $name .= $this->authors[1]['family'];
+            return $name;            
+        } else {
+            $name = $this->authors[0]['family'] . ' <em>et al.</em>';
+            return $name;            
+        }
+    }
 
     public function createJournal($data)
     {

@@ -120,10 +120,29 @@ class SiteController extends Controller
         {
             $submission = Submission::model()->getByOID($oid);
             
-            $reference = unserialize($submission->object);
-            
-            CVarDumper::dump($submission);
-            CVarDumper::dump($reference);
+            if($submission) {
+                $reference = unserialize($submission->object);
+
+                $data['reference'] = $reference;
+                
+                switch($reference->type) {
+                    case 'journal-article':
+                        $type = 'artikel jurnal'; break;
+                    case 'proceedings-article':
+                        $type = 'artikel prosiding'; break;
+                    case 'book-chapter':
+                        $type = 'artikel dalam buku'; break;
+                    case 'reference-entry':
+                        $type = 'artikel'; break;
+                }
+                
+                $data['type'] = $type;
+                
+                $this->render('result', $data);
+                
+            } else {
+                throw new CHttpException(404, "Halaman tidak ditemukan");
+            }
         }
 
 }
