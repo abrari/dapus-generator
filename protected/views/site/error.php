@@ -5,7 +5,14 @@
 </div>
 
 <div class="container">
-    File: <?php echo CHtml::encode($file); ?><br/>
-    Line: <?php echo CHtml::encode($line); ?><br/>
-    <?php echo CHtml::encode($message); ?>
+    <!--File: <?php echo CHtml::encode($file); ?><br/>
+    Line: <?php echo CHtml::encode($line); ?><br/>-->
+    <p>
+        Terjadi kesalahan saat memproses permintaan Anda.
+    </p>
+    
+    <div class="alert alert-danger" role="alert">
+        <strong>Pesan kesalahan</strong>: <?php echo CHtml::encode($message); ?>
+    </div>
+    
 </div>

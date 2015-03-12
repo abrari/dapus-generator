@@ -17,15 +17,15 @@ class WebAPI {
         $apiRequest = Yii::app()->curl->run($url);
 
         if($apiRequest->hasErrors()) {
-            throw new CException('Gagal menghubungi server');
+            throw new CHttpException(500, 'Gagal menghubungi server CrossRef');
         } else {
             $apiResponse = CJSON::decode($apiRequest->getData());
             // CVarDumper::dump($apiResponse, 10, TRUE);
             if($apiResponse === null) {
-                throw new CException("Gagal parsing data");
+                throw new CHttpException(500, "Gagal parsing data CrossRef");
             }
             if($apiResponse['message']['total-results'] == 0) {
-                throw new CException("Tidak ditemukan hasil");
+                throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
             }
 
             // use subtitle if exist
@@ -37,7 +37,7 @@ class WebAPI {
             $foundTitle = $apiResponse['message']['items'][0]['title'][0];
             $foundScore = $apiResponse['message']['items'][0]['score'];
             if($foundScore < 2.0 || StringHelper::stringSimilarity($query, $foundTitle) < 80) {
-                throw new CException("Tidak ditemukan hasil");
+                throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
             }
 
             $refType = $apiResponse['message']['items'][0]['type'];
@@ -52,7 +52,7 @@ class WebAPI {
                 case 'reference-entry':
                     return $ref->createBookChapter($apiResponse['message']['items'][0]);                        
                 default: 
-                    throw new CException("Tidak ditemukan hasil");
+                    throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
             }
         }
     }
@@ -65,12 +65,12 @@ class WebAPI {
         $apiRequest = Yii::app()->curl->run($url);
 
         if($apiRequest->hasErrors()) {
-            throw new CException('Gagal menghubungi server');
+            throw new CHttpException(500, 'Gagal menghubungi server CrossRef');
         } else {
             $apiResponse = CJSON::decode($apiRequest->getData());
 
             if($apiResponse === null) {
-                throw new CException("Tidak ditemukan hasil");
+                throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
             }
 
             $refType = $apiResponse['message']['type'];
@@ -85,7 +85,7 @@ class WebAPI {
                 case 'reference-entry':
                     return $ref->createBookChapter($apiResponse['message']);
                 default: 
-                    throw new CException("Tidak ditemukan hasil");
+                    throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
             }
         }
     }        
@@ -98,14 +98,14 @@ class WebAPI {
         $apiRequest = Yii::app()->curl->run($url);
 
         if($apiRequest->hasErrors()) {
-            throw new CException('Gagal menghubungi server ISBN');
+            throw new CHttpException(500, 'Gagal menghubungi server ISBN'); // ignored, actually
         } else {
             $apiResponse = CJSON::decode($apiRequest->getData());
             if($apiResponse === null) {
-                throw new CException("Gagal parsing data ISBN");
+                throw new CHttpException(500, "Gagal parsing data ISBN");
             }            
             if($apiResponse['stat'] !== 'ok') {
-                throw new CException("Tidak ditemukan hasil ISBN");
+                throw new CHttpException(500, "Tidak ditemukan hasil ISBN");
             }                
 
             return $apiResponse['list'][0];

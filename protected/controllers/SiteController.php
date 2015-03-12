@@ -36,8 +36,19 @@ class SiteController extends Controller
 		{
 			if(Yii::app()->request->isAjaxRequest)
 				echo $error['message'];
-			else
+			else {
+                                if ($error['code'] == 500) {
+                                    // save errors to database
+                                    $submission = new Submission();
+                                    $submission->timestamp = new CDbExpression('NOW()');
+                                    $submission->object = 'File: ' . basename($error['file']) . ':' . $error['line'] . ' [' . $error['message'] . ']';
+                                    $submission->oid = '';
+                                    $submission->ref_type = 'ERROR';                                    
+                                    $submission->save(false);
+                                }
+                                
 				$this->render('error', $error);
+                        }
 		}
 	}
                 
@@ -74,7 +85,7 @@ class SiteController extends Controller
                         } else if($g_title !== '') {
                             $reference = WebAPI::searchCrossRef($g_title);
                         } else {
-                            throw new CException("Tidak ditemukan hasil");
+                            throw new CHttpException(500, "Tidak ditemukan hasil");
                         }
                         
                         // save to database
@@ -91,11 +102,11 @@ class SiteController extends Controller
                         }                                                
                     } else {
                         CFileHelper::removeDirectory($tempFolder);
-                        throw new CException("Upload gagal dengan kode error: {$model->pdf->getError()}.");
+                        throw new CHttpException(500, "Upload gagal dengan kode error: {$model->pdf->getError()}.");
                     }                    
                 } else {
                     CFileHelper::removeDirectory($tempFolder);
-                    throw new CException("Kesalahan dokumen (harus PDF).");
+                    throw new CHttpException(500, "Kesalahan dokumen (harus PDF).");
                 }                
                 
                 // cleanup
