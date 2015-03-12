@@ -47,8 +47,8 @@
 
             <p>Aplikasi web ini memiliki beberapa keterbatasan, antara lain</p>
             <ul>
-                <li>Hanya mampu mencari paper jurnal, prosiding, atau bab dari buku</li>
-                <li>Hanya mampu mencari paper berbahasa Inggris, terutama yang terindeks SCOPUS</li>
+                <li>Hanya untuk paper jurnal, prosiding, atau bab dari buku</li>
+                <li>Diutamakan paper berbahasa Inggris, terutama yang terindeks SCOPUS</li>
                 <li>Kapitalisasi judul harus disesuaikan secara manual</li>
                 <li>Untuk prosiding, nomor halaman harus dimasukkan sendiri</li>
             </ul>        

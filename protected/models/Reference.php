@@ -7,6 +7,8 @@
  */
 class Reference extends CModel {
     
+    public $type;
+
     public function attributeNames() {
         return array();
     }
@@ -36,6 +38,7 @@ class Reference extends CModel {
     public function createJournal($data)
     {
         $journal = new Journal();
+        $journal->type    = $data['type'];
         $journal->authors = $data['author'];
         $journal->year    = $data['issued']['date-parts'][0][0];
         $journal->title   = $data['title'][0];
@@ -71,6 +74,7 @@ class Reference extends CModel {
         }
 
         $chapter = new BookChapter();
+        $chapter->type    = $data['type'];
         $chapter->authors = $data['author'];
         $chapter->year    = $data['issued']['date-parts'][0][0];
         $chapter->title   = $data['title'][0];            
@@ -106,6 +110,7 @@ class Reference extends CModel {
         }
 
         $proc = new Proceeding();
+        $proc->type    = $data['type'];
         $proc->authors = $data['author'];
         $proc->year    = $data['issued']['date-parts'][0][0];
         $proc->title   = $data['title'][0];            

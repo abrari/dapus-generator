@@ -77,9 +77,18 @@ class SiteController extends Controller
                             throw new CException("Tidak ditemukan hasil");
                         }
                         
-                        echo $reference->formatAuthors();
-                        CVarDumper::dump($reference);
+                        // save to database
+                        $submission = new Submission();
+                        $submission->timestamp = new CDbExpression('NOW()');
+                        $submission->object = serialize($reference);
+                        $submission->oid = sha1($submission->object);
+                        $submission->ref_type = $reference->type;
                         
+                        if($submission->save()) {
+                            $this->redirect(array('site/result/' . $submission->oid));
+                        } else {
+                            throw new CHttpException(500, "Kesalahan: Gagal menyimpan data.");
+                        }                                                
                     } else {
                         CFileHelper::removeDirectory($tempFolder);
                         throw new CException("Upload gagal dengan kode error: {$model->pdf->getError()}.");
@@ -93,6 +102,15 @@ class SiteController extends Controller
             // cleanup
             CFileHelper::removeDirectory($tempFolder);
             
+        }
+        
+        public function actionResult($oid)
+        {
+            $submission = Submission::model()->getByOID($oid);
+            
+            $reference = unserialize($submission->object);
+            
+            CVarDumper::dump($reference);
         }
 
 }
