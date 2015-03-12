@@ -12,7 +12,7 @@
 
         <form class="col-md-8 col-md-offset-2" action="<?php echo Yii::app()->request->baseUrl; ?>/site/upload" method="post" enctype="multipart/form-data" id="form">
             <div class="form-group">
-                <label class="control-label" for="q">Unggah berkas paper dalam bentuk PDF:</label>
+                <label class="control-label" for="q">Unggah berkas <em>paper</em> dalam bentuk PDF:</label>
                 <div>            
                     <?php
                         $model = new PDFUpload();
@@ -33,22 +33,22 @@
 <div class="container">    
     <div class="row">
         <div class="col-md-6">
-            <h3>Cara penggunaan</h3>
+            <h3>Cara Penggunaan</h3>
             
             <ol>
-                <li>Cari file PDF paper yang ingin dibuat sitasinya</li>
+                <li>Cari file PDF dari <em>paper</em> yang ingin dibuat sitasinya</li>
                 <li>Klik tombol "Buat Daftar Pustaka"</li>
                 <li>Periksa kembali hasil yang diberikan oleh sistem</li>
             </ol>
         </div>
 
         <div class="col-md-6">
-            <h3>Beberapa keterbatasan</h3>
+            <h3>Beberapa Keterbatasan</h3>
 
             <p>Aplikasi web ini memiliki beberapa keterbatasan, antara lain</p>
             <ul>
-                <li>Hanya untuk paper jurnal, prosiding, atau bab dari buku</li>
-                <li>Diutamakan paper berbahasa Inggris, terutama yang terindeks SCOPUS</li>
+                <li>Hanya untuk <em>paper</em> jurnal, prosiding, atau bab dari buku</li>
+                <li>Diutamakan <em>paper</em> berbahasa Inggris, terutama yang terindeks SCOPUS</li>
                 <li>Kapitalisasi judul harus disesuaikan secara manual</li>
                 <li>Untuk prosiding, nomor halaman harus dimasukkan sendiri</li>
             </ul>        

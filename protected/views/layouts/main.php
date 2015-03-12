@@ -14,6 +14,8 @@
 
 <body>
 
+    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/beta_banner.png" alt="Beta" title="Versi Beta, selamanya" style="position: fixed; top: 0px; right: 0px; z-index: 2015"/>
+    
         <?php 
         $this->widget(
             'booster.widgets.TbNavbar',
@@ -25,7 +27,7 @@
                         'class' => 'booster.widgets.TbMenu',
                         'type' => 'navbar',
                         'items'=>array(
-                                array('label'=>'Home', 'url'=>array('/site/index')),
+                                array('label'=>'Beranda', 'url'=>array('/site/index')),
                                 array('label'=>'Tentang', 'url'=>array('/site/page', 'view'=>'about')),
                                 array('label'=>'Unduh', 'url'=>array('/site/page', 'view'=>'download')),
                         ),
