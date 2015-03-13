@@ -43,6 +43,7 @@ return array(
                 'curl' => array(
                         'class' => 'ext.curl.Curl',
                         'options' => array(
+                            'timeout' => 240,
                             'setOptions' => array(
                                 CURLOPT_HEADER => false
                             )

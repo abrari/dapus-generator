@@ -111,7 +111,7 @@ class Grobid {
         if (file_exists($this->out . '/input.tei.xml')) {
             return simplexml_load_file($this->out . '/input.tei.xml');
         } else {
-            throw new Exception("GROBID failed");
+            throw new CHttpException(500, "Terjadi kesalahan pada proses GROBID");
         }
     }
     

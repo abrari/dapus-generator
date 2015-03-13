@@ -108,7 +108,7 @@ class Reference extends CModel {
         if($bookData !== null) {
             $chapter->book_title = StringHelper::titleCase($bookData['title']);
             $chapter->pub        = $bookData['publisher'];
-            $chapter->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : explode(",", $bookData['city'])[0]; 
+            $chapter->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city']));
             $chapter->pub_country= WebAPI::searchCityData($chapter->pub_city);
 
             // editors uses Stanford NER
@@ -144,7 +144,7 @@ class Reference extends CModel {
 
         if($bookData !== null) {
             $proc->pub        = $bookData['publisher'];
-            $proc->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : explode(",", $bookData['city'])[0]; 
+            $proc->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
             $proc->pub_city   = preg_replace("/[^A-Za-z0-9 \-']/", "", $proc->pub_city); // additional filtering
             $proc->pub_country= WebAPI::searchCityData($proc->pub_city);
 

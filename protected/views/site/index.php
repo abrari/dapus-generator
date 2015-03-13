@@ -36,7 +36,7 @@
             <h3>Cara Penggunaan</h3>
             
             <ol>
-                <li>Cari file PDF dari <em>paper</em> yang ingin dibuat sitasinya</li>
+                <li>Cari file PDF dari <em>paper</em> yang ingin dibuat sitasinya (maksimum 25 MB)</li>
                 <li>Klik tombol "Buat Daftar Pustaka"</li>
                 <li>Periksa kembali hasil yang diberikan oleh sistem</li>
             </ol>
