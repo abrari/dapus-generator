@@ -18,6 +18,10 @@ class Reference extends CModel {
         // format crossRef authors
         $authorsFormatted = array();
         
+        if(count($this->authors) == 0) {
+            return '[Anonim]';
+        }
+        
         $i = 0;
         foreach($this->authors as $author) {
             $name = $author['family'] . ' ' . StringHelper::initials($author['given']);
@@ -81,7 +85,7 @@ class Reference extends CModel {
             $journalName = '[Jurnal tidak diketahui]';
         }
 
-        $journal->journal = $journalName;
+        $journal->journal = StringHelper::titleCase($journalName);
 
         return $journal;
     }

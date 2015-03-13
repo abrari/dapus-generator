@@ -31,4 +31,53 @@ class BookChapter extends Reference {
         );
     }
 
+    public function formatEditors()
+    {
+        // format names in editors
+        $editorsFormatted = array();
+        
+        if(!$this->editors) {
+            return '';
+        }
+        
+        foreach($this->editors as $editor) {
+            $name = explode(' ', $editor);
+            $lastName = array_pop($name);
+            
+            $editorsFormatted[] = $lastName . ' ' . StringHelper::initials(implode(' ', $name));
+        }
+        
+        $editorsString = implode(', ', $editorsFormatted);
+        
+        return $editorsString;
+    } 
+    
+    public function formatCitation() {
+        $citation  = "";
+        $citation .= $this->formatAuthors() . '. ';
+        $citation .= $this->year . '. ';
+        $citation .= $this->title . '. ';
+        $citation .= "Di dalam: ";
+        if($this->editors) {
+            $citation .= $this->formatEditors() . ', editor. ';
+        }
+        if($this->book_title) {
+            $citation .= '<em>' . $this->book_title . '</em>; ';
+        } else {
+            $citation .= '[Judul buku tidak diketahui]; ';
+        }
+        if($this->pub) {
+            $citation .= $this->pub_city . ' (' . $this->pub_country . '): ' . $this->pub . '. ';
+        } else {
+            $citation .= '[Penerbit tidak diketahui]. ';
+        }
+        if($this->pages) {
+            $citation .= 'hlm ' . $this->pages . '. ';
+        } else {
+            $citation .= '[No halaman tidak diketahui]. ';
+        }
+        
+        return $citation;
+    }    
+    
 }

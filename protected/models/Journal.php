@@ -28,5 +28,21 @@ class Journal extends Reference {
             'doi' => 'DOI'
         );
     }
+    
+    public function formatCitation() {
+        $citation  = "";
+        $citation .= $this->formatAuthors() . '. ';
+        $citation .= $this->year . '. ';
+        $citation .= $this->title . '. ';
+        $citation .= '<em>' . $this->journal . '</em>. ';
+        $citation .= $this->volume;
+        if($this->issue != '')
+            $citation .= '(' . $this->issue . ')';
+        $citation .= ':' . $this->pages . '.';
+        if($this->doi != '')
+            $citation .= 'doi:' . $this->doi . '.';
+        
+        return $citation;
+    }
 
 }

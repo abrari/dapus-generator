@@ -1126,3 +1126,11 @@ thead th {
     cursor: inherit;
     display: block;
 }
+
+.ipb-text {
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    margin: 0;
+    line-height: 1;
+    text-align: justify;
+}
