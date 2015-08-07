@@ -5,57 +5,22 @@
  *
  * @author abrari
  */
-class Proceeding extends Reference {
+class Proceeding extends Book {
     
-    public $authors;
-    public $year;
-    public $title;
-    public $editors;
     public $proc_name;
     public $con_date;
     public $con_city;
-    public $pub_city;
-    public $pub_country;
-    public $pub;    
     public $pages;
     
     public function attributeNames() {
-        return array(
-            'authors' => 'Pengarang',
-            'year' => 'Tahun',
-            'title' => 'Judul artikel',
-            'editors' => 'Editor',
+        return array_merge(parent::attributeNames(), array(
             'proc_name' => 'Nama konferensi',
             'con_date' => 'Tanggal konferensi',
             'con_city' => 'Kota konferensi',
-            'pub_city' => 'Kota penerbit',
-            'pub_country' => 'Negara penerbit',
-            'pub' => 'Penerbit',
             'pages' => 'Halaman',
-        );
+        ));
     }
 
-    public function formatEditors()
-    {
-        // format names in editors
-        $editorsFormatted = array();
-        
-        if(!$this->editors) {
-            return '';
-        }
-        
-        foreach($this->editors as $editor) {
-            $name = explode(' ', $editor);
-            $lastName = array_pop($name);
-            
-            $editorsFormatted[] = $lastName . ' ' . StringHelper::initials(implode(' ', $name));
-        }
-        
-        $editorsString = implode(', ', $editorsFormatted);
-        
-        return $editorsString;
-    }    
-    
     public function formatCitation() {
         $citation  = "";
         $citation .= $this->formatAuthors() . '. ';

@@ -162,6 +162,10 @@ class Reference extends CModel {
         }
 
         return $proc;
-    }        
+    }
+    
+    public function formatCitation(){
+        
+    }
 
 }

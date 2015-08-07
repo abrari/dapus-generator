@@ -58,7 +58,7 @@ class StringHelper {
 		//(never on the first word, and never if preceded by a colon)
 		$m = $i>0 && mb_substr ($title, max (0, $i-2), 1, 'UTF-8') !== ':' && 
 			!preg_match ('/[\x{2014}\x{2013}] ?/u', mb_substr ($title, max (0, $i-2), 2, 'UTF-8')) && 
-			 preg_match ('/^(a(nd?|s|t)?|b(ut|y)|en|for|i[fn]|o[fnr]|t(he|o)|vs?\.?|via)[ \-]/i', $m)
+			 preg_match ('/^(a(nd?|s|t)?|b(ut|y)|en|for|i[fn]|o[fnr]|t(he|o)|vs?\.?|via|di|ke|dari|pada|dan|atau|dengan)[ \-]/i', $m)
 		?	//…and convert them to lowercase
 			mb_strtolower ($m, 'UTF-8')
 			
@@ -90,6 +90,19 @@ class StringHelper {
         // fix colon
         $title = str_replace(" : ", ": ", $title);
 	return $title;
+    }
+    
+    public static function sentenceCase($title) {
+        $title_toks = explode(' ', $title);
+        for($i = 0; $i < count($title_toks); $i++) {
+            if($title_toks[$i] != strtoupper($title_toks[$i])) {
+                $title_toks[$i] = strtolower($title_toks[$i]);
+            } // if the word is all-caps, ignore
+        }        
+        
+        $title_final = ucfirst(implode(' ', $title_toks));
+        
+        return $title_final;
     }
     
     // parse book editors names to array
