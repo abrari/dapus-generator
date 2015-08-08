@@ -170,5 +170,25 @@ class SiteController extends Controller
             
             echo $skripsi->formatCitation();
         }
+        
+        public function actionManual() {
+                        
+            $book = new Book();
+            
+            if(isset($_POST['Book'])) {
+                $book->attributes = $_POST['Book'];
+                
+                if($book->validate()) {
+                    $data['citation'] = $book->formatCitation();
+                    $data['inline']   = $book->formatInlineCitation();
+                    //CVarDumper::dump($book);
+                }
+            }
+            
+            $data['book'] = $book;
+            $this->render('form', $data);
+            
+        }
+        
 
 }

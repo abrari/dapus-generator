@@ -28,6 +28,8 @@ return array(
 		),
 		
 	),
+    
+        'language' => 'id',
 
 	// application components
 	'components'=>array(
