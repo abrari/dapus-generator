@@ -1,6 +1,6 @@
 <style type="text/css">
     .tab-content .form {
-        margin-top: 10px;
+        margin-top: 20px;
     }
 </style>
 
@@ -10,15 +10,10 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="jumbotron">
+<div class="jumbotron subhead">
     <div class="container">
-
-        <h1>Format Daftar Pustaka</h1>
-        <p>
-            Aplikasi web ini dapat membantu pembuatan sitasi untuk daftar pustaka <br/>
-            dengan berpedoman pada Pedoman Penulisan Karya Ilmiah (PPKI) IPB.
-        </p>      
-        
+        <h1>Pembuatan Entri Daftar Pustaka</h1>
+        <p>Tentukan jenis pustaka, dan masukkan data-datanya pada <em>form</em> berikut.</p>
     </div>        
 </div>
 
@@ -49,19 +44,39 @@
     </div>
     
     <?php if(isset($citation) && isset($inline)) : ?>
-    <div class="row" id="result">
-        <h3>Entri Daftar Pustaka</h3>
+    
+    <div class="modal fade" id="result-popup" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4>Entri Daftar Pustaka</h4>
 
-        <div class="well">
-            <p class="ipb-text"><?php echo $citation; ?></p>
+                    <div class="well">
+                        <p class="ipb-text"><?php echo $citation; ?></p>
+                    </div>
+
+                    <h4>Sitasi dalam Teks</h4>
+
+                    <div class="well ipb-text">
+                        <p class="ipb-text"><?php echo $inline; ?></p>
+                    </div>           
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                </div>                
+            </div>
         </div>
-
-        <h3>Sitasi dalam Teks</h3>
-
-        <div class="well ipb-text">
-            <p class="ipb-text"><?php echo $inline; ?></p>
-        </div>           
     </div>
+    
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#result-popup').modal({
+            backdrop : "static",
+            keyboard : false
+        });
+    });
+    </script>
+    
     <?php endif; ?>
     
 </div>

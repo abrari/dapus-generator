@@ -1228,4 +1228,21 @@ class CController extends CBaseController
 		$value=base64_encode($data);
 		$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($value),$output);
 	}
+        
+        /**
+         * Return data to browser as JSON and end application.
+         * @param array $data
+         */
+        public function renderJSON($data)
+        {
+            header('Content-type: application/json');
+            echo CJSON::encode($data);
+
+            foreach (Yii::app()->log->routes as $route) {
+                if($route instanceof CWebLogRoute) {
+                    $route->enabled = false; // disable any weblogroutes
+                }
+            }
+            Yii::app()->end();
+        }          
 }

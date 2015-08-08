@@ -190,5 +190,23 @@ class SiteController extends Controller
             
         }
         
+        public function actionIsbn($isbn) {
+
+            $data = WebAPI::searchBookData($isbn); // id = ISBN
+            $book = new Book();
+            
+            $book->authors = rtrim($data['author'], ".");
+            $book->year = $data['year'];
+            $book->title = str_replace(" : ", ": ", $data['title']);
+            $book->edition = filter_var($data['ed'], FILTER_SANITIZE_NUMBER_INT);
+            $city = explode(",", $data['city']);
+            $book->pub_city = reset($city);
+            $book->pub_country = WebAPI::searchCityData($book->pub_city);
+            $book->pub = str_replace("/", ", ", $data['publisher']);
+            
+            $this->renderJSON((array) $book);
+            
+        }
+        
 
 }

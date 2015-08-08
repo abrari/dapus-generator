@@ -25,7 +25,7 @@ class Book extends Reference {
             'edition' => 'Edisi',
             'editors' => 'Editor',
             'pub_city' => 'Kota penerbit',
-            'pub_country' => 'Negara penerbit',
+            'pub_country' => 'Kode negara penerbit',
             'pub' => 'Penerbit',
         );
     }    
@@ -33,7 +33,8 @@ class Book extends Reference {
     public function rules() {
         return array(
             array('authors, year, title, pub_city, pub_country, pub', 'required'),
-            array('authors, year, title, edition, editors, pub_city, pub_country, pub', 'safe')
+            array('authors, year, title, edition, editors, pub_city, pub_country, pub', 'safe'),
+            array('pub_country', 'length', 'is' => 2),
         );
     }
     
@@ -65,7 +66,7 @@ class Book extends Reference {
         $citation .= $this->year . '. ';
         $citation .= '<em>' . StringHelper::titleCase($this->title) . '</em>. ';
         if($this->edition) {
-            $citation .= 'Ed ke-' . intval($this->edition) . '. ';
+            $citation .= 'Ed ke-' . filter_var($this->edition, FILTER_SANITIZE_NUMBER_INT) . '. ';
         }
         if($this->editors) {
             $citation .= $this->formatEditors() . ', editor. ';

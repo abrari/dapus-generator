@@ -55,6 +55,7 @@ return array(
 			'urlFormat'=>'path',
                         'showScriptName'=>false,
 			'rules'=>array(
+                                'site/isbn/<isbn:.+>'=>'site/isbn',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<oid:\w+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
