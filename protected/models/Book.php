@@ -17,12 +17,12 @@ class Book extends Reference {
     public $pub_country;
     public $pub;    
     
-    public function attributeNames() {
+    public function attributeLabels() {
         return array(
             'authors' => 'Pengarang',
             'year' => 'Tahun',
-            'title' => 'Judul artikel',
-            'title' => 'Edisi',
+            'title' => 'Judul buku',
+            'edition' => 'Edisi',
             'editors' => 'Editor',
             'pub_city' => 'Kota penerbit',
             'pub_country' => 'Negara penerbit',
@@ -30,20 +30,28 @@ class Book extends Reference {
         );
     }    
     
+    public function rules() {
+        return array(
+            array('authors, year, title, pub_city, pub_country, pub', 'required'),
+            array('authors, year, title, edition, editors, pub_city, pub_country, pub', 'safe')
+        );
+    }
+    
     public function formatEditors()
     {
         // format names in editors
+        $editors = $this->makeEditors();
         $editorsFormatted = array();
         
-        if(!$this->editors) {
+        if(!$editors) {
             return '';
         }
         
-        foreach($this->editors as $editor) {
+        foreach($editors as $editor) {
             $name = explode(' ', $editor);
             $lastName = array_pop($name);
             
-            $editorsFormatted[] = $lastName . ' ' . StringHelper::initials(implode(' ', $name));
+            $editorsFormatted[] = trim($lastName . ' ' . StringHelper::initials(implode(' ', $name)));
         }
         
         $editorsString = implode(', ', $editorsFormatted);
@@ -69,6 +77,18 @@ class Book extends Reference {
         }
         
         return $citation;        
+    }
+    
+    private function makeEditors() {
+        // convert comma-separated list of editor to array
+        if(!is_string($this->editors) || is_array($this->editors)) return $this->editors;
+        
+        $editors = explode(",", $this->editors);
+        for($i = 0; $i < count($editors); $i++) {
+            $editors[$i] = trim($editors[$i]);
+        }
+        
+        return $editors;
     }
     
 }

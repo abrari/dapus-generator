@@ -16,16 +16,17 @@ class Reference extends CModel {
     public function formatAuthors()
     {
         // format crossRef authors
+        $authors = $this->makeAuthors();
         $authorsFormatted = array();
         
-        if(count($this->authors) == 0) {
+        if(count($authors) == 0) {
             return '[Anonim]';
         }
         
         $i = 0;
-        foreach($this->authors as $author) {
+        foreach($authors as $author) {
             $name = $author['family'] . ' ' . StringHelper::initials($author['given']);
-            $authorsFormatted[] = $name;
+            $authorsFormatted[] = trim($name);
             
             $i++;
             if($i == 10) {
@@ -42,20 +43,21 @@ class Reference extends CModel {
     public function formatAuthorsInline()
     {
         // for inline citation (in text)
-        $count = count($this->authors);
+        $authors = $this->makeAuthors();
+        $count = count($authors);
         
         if($count == 0) {
             return '[Anonim]';
         } else if($count == 1) {
-            $name = $this->authors[0]['family'];
+            $name = $authors[0]['family'];
             return $name;
         } else if($count == 2) {
-            $name  = $this->authors[0]['family'];
+            $name  = $authors[0]['family'];
             $name .= ' dan ';
-            $name .= $this->authors[1]['family'];
+            $name .= $authors[1]['family'];
             return $name;            
         } else {
-            $name = $this->authors[0]['family'] . ' <em>et al.</em>';
+            $name = $authors[0]['family'] . ' <em>et al.</em>';
             return $name;            
         }
     }
@@ -166,6 +168,27 @@ class Reference extends CModel {
     
     public function formatCitation(){
         
+    }
+    
+    public function formatInlineCitation() {
+        return "(" . $this->formatAuthorsInline() . ' ' . CHtml::encode($this->year) . ')';
+    }
+    
+    private function makeAuthors() {
+        // convert from comma-separated author list to crossRef-compatible author array
+        if(!is_string($this->authors) || is_array($this->authors)) return $this->authors;
+        
+        $authors_result = array();
+        $authors = explode(",", $this->authors);
+        
+        foreach($authors as $author) {
+            $name = explode(' ', trim($author));
+            $lastName = array_pop($name);
+        
+            $authors_result[] = array('family'=>$lastName, 'given'=>implode(' ', $name));
+        }
+        
+        return $authors_result;
     }
 
 }
