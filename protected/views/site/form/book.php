@@ -72,7 +72,9 @@ function searchISBN() {
             $('.isbn-input').prop('disabled', true);
         },
         error: function (jqXHR, textStatus, errorThrown) {
-            alert(textStatus);
+            alert("Error: " + jqXHR.responseText);
+            
+            $('.isbn-input').prop('disabled', false);
         },
         success: function (data, textStatus, jqXHR) {
             $("[id^=Book_]").each(function(){
@@ -82,7 +84,6 @@ function searchISBN() {
                 }
             });
 
-            
             $('.isbn-input').prop('disabled', false);
         }
     });

@@ -25,7 +25,7 @@ class WebAPI {
                 throw new CHttpException(500, "Gagal parsing data CrossRef");
             }
             if($apiResponse['message']['total-results'] == 0) {
-                throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
+                throw new CHttpException(404, "Tidak ditemukan hasil dari CrossRef");
             }
 
             // use subtitle if exist
@@ -52,7 +52,7 @@ class WebAPI {
                 case 'reference-entry':
                     return $ref->createBookChapter($apiResponse['message']['items'][0]);                        
                 default: 
-                    throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
+                    throw new CHttpException(404, "Tidak ditemukan hasil dari CrossRef");
             }
         }
     }
@@ -70,7 +70,7 @@ class WebAPI {
             $apiResponse = CJSON::decode($apiRequest->getData());
 
             if($apiResponse === null) {
-                throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
+                throw new CHttpException(404, "Tidak ditemukan hasil dari CrossRef");
             }
 
             $refType = $apiResponse['message']['type'];
@@ -85,7 +85,7 @@ class WebAPI {
                 case 'reference-entry':
                     return $ref->createBookChapter($apiResponse['message']);
                 default: 
-                    throw new CHttpException(500, "Tidak ditemukan hasil dari CrossRef");
+                    throw new CHttpException(404, "Tidak ditemukan hasil dari CrossRef");
             }
         }
     }        
@@ -105,7 +105,7 @@ class WebAPI {
                 throw new CHttpException(500, "Gagal parsing data ISBN");
             }            
             if($apiResponse['stat'] !== 'ok') {
-                throw new CHttpException(500, "Tidak ditemukan hasil ISBN");
+                throw new CHttpException(404, "Tidak ditemukan hasil ISBN");
             }                
 
             return $apiResponse['list'][0];
