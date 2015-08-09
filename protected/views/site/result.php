@@ -8,7 +8,7 @@
 
 <div class="container">
     
-    <h3>Informasi Dokumen</h3>
+    <h3>Informasi Referensi</h3>
     
     <table class="table">
         <tbody>
@@ -23,7 +23,7 @@
                 <td>
                     <ul style="padding-left: 16px">
                     <?php
-                    foreach($reference->authors as $name) {
+                    foreach($reference->makeAuthors() as $name) {
                         echo '<li>';
                         echo CHtml::encode($name['given']) . ' ' . CHtml::encode($name['family']);
                         echo '</li>';

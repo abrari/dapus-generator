@@ -122,18 +122,24 @@ class SiteController extends Controller
             
             if($submission) {
                 $reference = unserialize($submission->object);
-
+                
                 $data['reference'] = $reference;
                 
                 switch($reference->type) {
                     case 'journal-article':
+                    case 'journal-article-manual':
                         $type = 'artikel jurnal'; break;
                     case 'proceedings-article':
+                    case 'proceedings-article-manual':
                         $type = 'artikel prosiding'; break;
                     case 'book-chapter':
                         $type = 'artikel dalam buku'; break;
                     case 'reference-entry':
                         $type = 'artikel'; break;
+                    case 'book-manual':
+                        $type = 'buku'; break;
+                    case 'thesis-manual':
+                        $type = 'tugas akhir'; break;
                 }
                 
                 $data['type'] = $type;
@@ -145,6 +151,26 @@ class SiteController extends Controller
             }
         }
         
+        private function saveSubmission($type, Reference $reference) {
+            
+            if($reference->type == null) $reference->type = $type;
+            
+            $serialized = serialize($reference);
+            $oid = sha1($serialized);
+            
+            $submission = Submission::model()->findByAttributes(array('oid'=>$oid));
+            if(!$submission) $submission = new Submission();
+            
+            $submission->timestamp = new CDbExpression('NOW()');
+            $submission->object = $serialized;
+            $submission->oid = $oid;
+            $submission->ref_type = $type;            
+            
+            $submission->save();
+            
+            return $oid;
+            
+        }
         
 	public function actionAuto()
 	{
@@ -166,6 +192,7 @@ class SiteController extends Controller
                 if($book->validate()) {
                     $data['citation'] = $book->formatCitation();
                     $data['inline']   = $book->formatInlineCitation();
+                    $data['oid']      = $this->saveSubmission('book-manual', $book);
                 }
             }
             
@@ -175,6 +202,7 @@ class SiteController extends Controller
                 if($thesis->validate()) {
                     $data['citation'] = $thesis->formatCitation();
                     $data['inline']   = $thesis->formatInlineCitation();
+                    $data['oid']      = $this->saveSubmission('thesis-manual', $thesis);
                 }
             }            
             
@@ -184,6 +212,7 @@ class SiteController extends Controller
                 if($journal->validate()) {
                     $data['citation'] = $journal->formatCitation();
                     $data['inline']   = $journal->formatInlineCitation();
+                    $data['oid']      = $this->saveSubmission('journal-article-manual', $journal);
                 }                
             }
             
@@ -193,6 +222,7 @@ class SiteController extends Controller
                 if($proceeding->validate()) {
                     $data['citation'] = $proceeding->formatCitation();
                     $data['inline']   = $proceeding->formatInlineCitation();
+                    $data['oid']      = $this->saveSubmission('proceedings-article-manual', $proceeding);
                 }                
             }            
             

@@ -76,7 +76,8 @@
                     </div>           
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                    <a href="<?php echo $this->createUrl('site/result') . '/' . $oid ?>" target="_blank" class="pull-left">Permalink</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
                 </div>                
             </div>
         </div>

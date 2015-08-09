@@ -175,7 +175,7 @@ class Reference extends CModel {
         return "(" . $this->formatAuthorsInline() . ' ' . CHtml::encode($this->year) . ')';
     }
     
-    private function makeAuthors() {
+    public function makeAuthors() {
         // convert from comma-separated author list to crossRef-compatible author array
         if(!is_string($this->authors) || is_array($this->authors)) return $this->authors;
         

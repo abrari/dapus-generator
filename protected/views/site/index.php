@@ -35,7 +35,8 @@
         <div class="btn-group" role="group" aria-label="...">
             <a href="<?php echo $this->createUrl('site/manual') ?>" class="btn btn-lg btn-success mode-select"><span class="glyphicon glyphicon-list"></span>Manual</a>
             <a href="<?php echo $this->createUrl('site/auto') ?>" class="btn btn-lg btn-warning mode-select"><span class="glyphicon glyphicon-flash"></span>Otomatis</a>
-        </div>        
+        </div>     
+        <p></p>        
         
     </div>        
 </div>
@@ -46,8 +47,9 @@
             <h3>Manual</h3>
             
             <p>
-                Pada mode ini, Anda harus memasukkan sendiri data-data terkait sumber pustaka
-                yang akan dibuat sitasinya. Sedikit lebih sulit namun hasilnya lebih pasti.
+                Pada mode ini, Anda harus menentukan jenis pustaka dan 
+                memasukkan sendiri data-data terkait sumber pustaka
+                yang akan dibuat sitasinya. 
             </p>
         </div>
 
