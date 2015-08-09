@@ -119,9 +119,11 @@ class SiteController extends Controller
         public function actionResult($oid)
         {
             $submission = Submission::model()->getByOID($oid);
-            
+
             if($submission) {
                 $reference = unserialize($submission->object);
+                
+                if(!$reference) $reference = StringHelper::mb_unserialize($submission->object);
                 
                 $data['reference'] = $reference;
                 

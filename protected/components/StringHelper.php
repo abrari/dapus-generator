@@ -255,5 +255,10 @@ class StringHelper {
         
         return $ret;
     }
+
+    public static function mb_unserialize($string) {
+        $string = preg_replace('!s:(\d+):"(.*?)";!se', "'s:'.strlen('$2').':\"$2\";'", $string);
+        return unserialize($string);
+    }
     
 }
