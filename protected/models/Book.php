@@ -72,7 +72,7 @@ class Book extends Reference {
             $citation .= $this->formatEditors() . ', editor. ';
         }
         if($this->pub) {
-            $citation .= $this->pub_city . ' (' . $this->pub_country . '): ' . $this->pub . '. ';
+            $citation .= $this->pub_city . ' (' . strtoupper($this->pub_country) . '): ' . $this->pub . '. ';
         } else {
             $citation .= '[Penerbit tidak diketahui]. ';
         }

@@ -174,6 +174,7 @@ class SiteController extends Controller
         public function actionManual() {
                         
             $book = new Book();
+            $thesis = new Thesis();            
             $journal = new Journal();
             $proceeding = new Proceeding();
             
@@ -185,6 +186,15 @@ class SiteController extends Controller
                     $data['inline']   = $book->formatInlineCitation();
                 }
             }
+            
+            if(isset($_POST['Thesis'])) {
+                $thesis->attributes = $_POST['Thesis'];
+                
+                if($thesis->validate()) {
+                    $data['citation'] = $thesis->formatCitation();
+                    $data['inline']   = $thesis->formatInlineCitation();
+                }
+            }            
             
             if(isset($_POST['Journal'])) {
                 $journal->attributes = $_POST['Journal'];
@@ -205,6 +215,7 @@ class SiteController extends Controller
             }            
             
             $data['book'] = $book;
+            $data['thesis'] = $thesis;
             $data['journal'] = $journal;
             $data['proceeding'] = $proceeding;
             $this->render('form', $data);

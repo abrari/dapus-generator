@@ -37,6 +37,11 @@
                         'active' => true
                     ),
                     array(
+                        'id' => 'thesis',
+                        'label' => 'Tugas Akhir',
+                        'content' => $this->renderPartial('form/thesis', array('thesis' => $thesis), true),
+                    ),
+                    array(
                         'id' => 'journal',
                         'label' => 'Jurnal',
                         'content' => $this->renderPartial('form/journal', array('journal' => $journal), true),

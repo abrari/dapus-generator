@@ -57,7 +57,7 @@ class Proceeding extends Book {
             $citation .= '[Waktu dan tempat pertemuan tidak diketahui]. ';
         }
         if($this->pub) {
-            $citation .= $this->pub_city . ' (' . $this->pub_country . '): ' . $this->pub . '. ';
+            $citation .= $this->pub_city . ' (' . strtoupper($this->pub_country) . '): ' . $this->pub . '. ';
         } else {
             $citation .= '[Penerbit tidak diketahui]. ';
         }
