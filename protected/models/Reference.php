@@ -146,7 +146,8 @@ class Reference extends CModel {
 
         if($bookData !== null) {
             $proc->pub        = $bookData['publisher'];
-            $proc->pub_city   = (strpos($bookData['city'], ",") === false) ? $bookData['city'] : reset(explode(",", $bookData['city'])); 
+            $city = explode(",", $bookData['city']);
+            $proc->pub_city   = reset($city); 
             $proc->pub_city   = preg_replace("/[^A-Za-z0-9 \-']/", "", $proc->pub_city); // additional filtering
             $proc->pub_country= WebAPI::searchCityData($proc->pub_city);
 
@@ -189,6 +190,19 @@ class Reference extends CModel {
         }
         
         return $authors_result;
+    }
+    
+    public function unmakeAuthors() {
+        // convert from crossRef author array to comma-separated string
+        if(is_string($this->authors)) return $this->authors;
+        
+        $authors_result = array();
+        
+        foreach($this->authors as $author) {
+            $authors_result[] = $author['given'] . ' ' . $author['family'];
+        }
+        
+        return implode(", ", $authors_result);
     }
 
 }

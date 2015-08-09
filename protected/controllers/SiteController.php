@@ -174,6 +174,7 @@ class SiteController extends Controller
         public function actionManual() {
                         
             $book = new Book();
+            $journal = new Journal();
             
             if(isset($_POST['Book'])) {
                 $book->attributes = $_POST['Book'];
@@ -181,18 +182,29 @@ class SiteController extends Controller
                 if($book->validate()) {
                     $data['citation'] = $book->formatCitation();
                     $data['inline']   = $book->formatInlineCitation();
-                    //CVarDumper::dump($book);
                 }
             }
             
+            if(isset($_POST['Journal'])) {
+                $journal->attributes = $_POST['Journal'];
+             
+                if($journal->validate()) {
+                    $data['citation'] = $journal->formatCitation();
+                    $data['inline']   = $journal->formatInlineCitation();
+                }                
+            }
+            
             $data['book'] = $book;
+            $data['journal'] = $journal;
             $this->render('form', $data);
             
         }
         
-        public function actionIsbn($isbn) {
+        public function actionIsbn() {
 
-            $data = WebAPI::searchBookData($isbn); // id = ISBN
+            $isbn = Yii::app()->request->getParam('isbn');
+            
+            $data = WebAPI::searchBookData($isbn);
             $book = new Book();
             
             $book->authors = rtrim($data['author'], ".");
@@ -207,6 +219,21 @@ class SiteController extends Controller
             $this->renderJSON((array) $book);
             
         }
-        
+
+        public function actionDoi() {
+
+            $doi = Yii::app()->request->getParam('doi');
+            
+            $journal = WebAPI::searchCrossRefDOI($doi);
+            
+            if($journal->type == 'journal-article') {
+                
+                $journal->authors = $journal->unmakeAuthors();
+                $this->renderJSON((array) $journal);
+                
+            } else {
+                throw new CHttpException(404, "Tidak ditemukan jurnal dengan DOI tersebut.");
+            }            
+        }        
 
 }

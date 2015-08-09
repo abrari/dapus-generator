@@ -16,7 +16,7 @@ class Journal extends Reference {
     public $pages;
     public $doi;
     
-    public function attributeNames() {
+    public function attributeLabels() {
         return array(
             'authors' => 'Pengarang',
             'year' => 'Tahun',
@@ -29,18 +29,25 @@ class Journal extends Reference {
         );
     }
     
+    public function rules() {
+        return array(
+            array('authors, year, title, journal, volume, pages', 'required'),
+            array('authors, year, title, journal, volume, issue, pages, doi', 'safe'),
+        );
+    }    
+    
     public function formatCitation() {
         $citation  = "";
         $citation .= $this->formatAuthors() . '. ';
         $citation .= $this->year . '. ';
-        $citation .= $this->title . '. ';
-        $citation .= '<em>' . $this->journal . '</em>. ';
+        $citation .= StringHelper::sentenceCase($this->title) . '. ';
+        $citation .= '<em>' . StringHelper::titleCase($this->journal) . '</em>. ';
         $citation .= $this->volume;
         if($this->issue != '')
             $citation .= '(' . $this->issue . ')';
         $citation .= ':' . $this->pages . '.';
         if($this->doi != '')
-            $citation .= 'doi:' . $this->doi . '.';
+            $citation .= ' doi:' . $this->doi . '.';
         
         return $citation;
     }

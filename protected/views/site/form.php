@@ -7,6 +7,7 @@
 <?php
 /* @var $this SiteController */
 /* @var $book Book */
+/* @var $journal Journal */
 /* @var $form CActiveForm */
 ?>
 
@@ -27,6 +28,11 @@
                 'id' => 'tabs',
                 'tabs' => array(
                     array(
+                        'id' => 'hint',
+                        'label' => 'Jenis Pustaka:',
+                        'itemOptions' => array('id' => 'tab-hint')
+                    ),
+                    array(
                         'id' => 'book',
                         'label' => 'Buku',
                         'content' => $this->renderPartial('form/book', array('book' => $book), true),
@@ -35,7 +41,7 @@
                     array(
                         'id' => 'journal',
                         'label' => 'Jurnal',
-                        'content' => "Isi form jurnal"
+                        'content' => $this->renderPartial('form/journal', array('journal' => $journal), true),
                     )
                 )
             )
@@ -82,9 +88,15 @@
 </div>
 
 <?php if((new CHttpRequest)->getParam("tab") != null): ?>
-        <script>
-            $(document).ready(function() { 
-                $('#tabs a[href*="<?php echo (new CHttpRequest)->getParam("tab"); ?>"]').tab('show');
-            });
-        </script> 
+    <script>
+        $(document).ready(function() { 
+            $('#tabs a[href*="<?php echo (new CHttpRequest)->getParam("tab"); ?>"]').tab('show');
+        });
+    </script> 
 <?php endif; ?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tab-hint').css({padding:'10px 15px'}).html("Jenis Pustaka:");
+});
+</script>

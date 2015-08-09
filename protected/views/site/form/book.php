@@ -8,7 +8,6 @@
 
 <?php $form=$this->beginWidget('booster.widgets.TbActiveForm', array(
     'id' => 'book-form',
-    'enableAjaxValidation' => true,
     'action' => $this->createUrl('') . '?tab=book',
     'type' => 'horizontal',
     'htmlOptions' => array('class' => 'well')
@@ -61,7 +60,7 @@
 <script type="text/javascript">
 function searchISBN() {
     var isbn = $('#isbn-input').val();
-    var url = '<?php echo $this->createUrl('site/isbn') ?>/' + isbn;
+    var url = '<?php echo $this->createUrl('site/isbn') ?>?isbn=' + isbn;
     
     if(isbn == '') return false;
     
