@@ -56,13 +56,13 @@ class BookChapter extends Reference {
         $citation  = "";
         $citation .= $this->formatAuthors() . '. ';
         $citation .= $this->year . '. ';
-        $citation .= $this->title . '. ';
+        $citation .= StringHelper::sentenceCase($this->title) . '. ';
         $citation .= "Di dalam: ";
         if($this->editors) {
             $citation .= $this->formatEditors() . ', editor. ';
         }
         if($this->book_title) {
-            $citation .= '<em>' . $this->book_title . '</em>; ';
+            $citation .= '<em>' . StringHelper::titleCase($this->book_title) . '</em>; ';
         } else {
             $citation .= '[Judul buku tidak diketahui]; ';
         }

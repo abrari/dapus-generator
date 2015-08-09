@@ -11,7 +11,7 @@
 
 <div class="jumbotron subhead">
     <div class="container">
-        <h1>Pembuatan Entri Daftar Pustaka</h1>
+        <h1>Pembuatan Entri Pustaka</h1>
         <p>Tentukan jenis pustaka, dan masukkan data-datanya pada <em>form</em> berikut.</p>
     </div>        
 </div>
@@ -66,13 +66,13 @@
                     <h4>Entri Daftar Pustaka</h4>
 
                     <div class="well">
-                        <p class="ipb-text"><?php echo $citation; ?></p>
+                        <p class="ipb-text" contenteditable="true"><?php echo $citation; ?></p>
                     </div>
 
                     <h4>Sitasi dalam Teks</h4>
 
-                    <div class="well ipb-text">
-                        <p class="ipb-text"><?php echo $inline; ?></p>
+                    <div class="well">
+                        <p class="ipb-text" contenteditable="true"><?php echo $inline; ?></p>
                     </div>           
                 </div>
                 <div class="modal-footer">

@@ -52,15 +52,15 @@
     <h3>Entri Daftar Pustaka</h3>
 
     <div class="well">
-        <p class="ipb-text"><?php echo $reference->formatCitation(); ?></p>
+        <p class="ipb-text" contenteditable="true"><?php echo $reference->formatCitation(); ?></p>
     </div>
     
     <br/>
     
     <h3>Sitasi dalam Teks</h3>
 
-    <div class="well ipb-text">
-        <p class="ipb-text"><?php echo "(" . $reference->formatAuthorsInline() . ' ' . CHtml::encode($reference->year) . ')'; ?></p>
+    <div class="well">
+        <p class="ipb-text" contenteditable="true"><?php echo "(" . $reference->formatAuthorsInline() . ' ' . CHtml::encode($reference->year) . ')'; ?></p>
     </div>    
     
 </div>

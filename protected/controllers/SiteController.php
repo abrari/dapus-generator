@@ -146,30 +146,12 @@ class SiteController extends Controller
         }
         
         
-        public function actionTest() {
-            
-            $book = new Book();
-            $book->authors = array(array('given' => 'Muhammad Abrar', 'family' => 'Istiadi'));
-            $book->year = "2014";
-            $book->title = "Knowledge and data mining: theory and practices";
-            $book->pub_city = "New Jersey";
-            $book->pub_country = "US";
-            $book->pub = "McGraw-Hill";
-            
-            echo $book->formatCitation() . '<br/>';
-            
-            $skripsi = new Thesis();
-            $skripsi->authors = array(array('given' => 'Tri', 'family' => 'Ardini'));
-            $skripsi->year = "2015";
-            $skripsi->title = "Sistem Temu Kembali Dokumen Hukum Nasional dengan menggunakan SPHINX";
-            $skripsi->thesis_type = "skripsi";
-            $skripsi->univ_city = "Bogor";
-            $skripsi->univ_country = "ID";
-            $skripsi->univ_faculty = "Fakultas MIPA";
-            $skripsi->univ = "Institut Pertanian Bogor";
-            
-            echo $skripsi->formatCitation();
-        }
+	public function actionAuto()
+	{
+		// renders the view file 'protected/views/site/index.php'
+		// using the default layout 'protected/views/layouts/main.php'
+		$this->render('upload');
+	}
         
         public function actionManual() {
                         
