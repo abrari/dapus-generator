@@ -96,10 +96,10 @@
     
 </div>
 
-<?php if((new CHttpRequest)->getParam("tab") != null): ?>
+<?php if(Yii::app()->request->getParam("tab") != null): ?>
     <script>
         $(document).ready(function() { 
-            $('#tabs a[href*="<?php echo (new CHttpRequest)->getParam("tab"); ?>"]').tab('show');
+            $('#tabs a[href*="<?php echo Yii::app()->request->getParam("tab"); ?>"]').tab('show');
         });
     </script> 
 <?php endif; ?>
