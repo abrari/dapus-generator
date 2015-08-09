@@ -27,9 +27,13 @@
                         'class' => 'booster.widgets.TbMenu',
                         'type' => 'navbar',
                         'items'=>array(
-                                array('label'=>'Beranda', 'url'=>array('/site/index')),
-                                array('label'=>'Tentang', 'url'=>array('/site/page', 'view'=>'about')),
-                                array('label'=>'Unduh', 'url'=>array('/site/page', 'view'=>'download')),
+                            array('label'=>'Beranda', 'url'=>array('/site/index')),
+                            array('label'=>'Pembuatan Sitasi', 'items'=>array(
+                                array('label'=>'Manual', 'url'=>array('/site/manual')),
+                                array('label'=>'Otomatis', 'url'=>array('/site/auto')),
+                            )),
+                            array('label'=>'Tentang', 'url'=>array('/site/page', 'view'=>'about')),
+                            array('label'=>'Unduh', 'url'=>array('/site/page', 'view'=>'download')),
                         ),
                     )
                 )

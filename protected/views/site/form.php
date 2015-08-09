@@ -11,7 +11,7 @@
 
 <div class="jumbotron subhead">
     <div class="container">
-        <h1>Pembuatan Entri Pustaka</h1>
+        <h1>Pembuatan Sitasi Manual</h1>
         <p>Tentukan jenis pustaka, dan masukkan data-datanya pada <em>form</em> berikut.</p>
     </div>        
 </div>

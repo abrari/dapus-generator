@@ -1,31 +1,41 @@
 
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/autosize.js" type="text/javascript"></script>
 
+<style type="text/css">
+    #mode-select-text {
+        font-size: 15px;
+        font-style: italic;
+        margin-bottom: 10px;
+    }
+    
+    .mode-select {
+        text-align: center;
+        padding: 30px;
+        padding: 20px 40px;
+        color: #FFF !important;
+    }
+    
+    .mode-select .glyphicon {
+        font-size: 40px;
+        display: block;
+        margin-bottom: 15px;
+    }
+</style>
+
 <div class="jumbotron">
     <div class="container">
 
         <h1>Pembuat Daftar Pustaka</h1>
         <p>
-            Aplikasi web ini dapat membantu pembuatan sitasi untuk daftar pustaka secara semi-otomatis <br/>
+            Aplikasi web ini dapat membantu pembuatan sitasi untuk daftar pustaka <br/>
             dengan berpedoman pada Pedoman Penulisan Karya Ilmiah (PPKI) IPB.
         </p>
 
-        <form class="col-md-8 col-md-offset-2" action="<?php echo Yii::app()->request->baseUrl; ?>/site/upload" method="post" enctype="multipart/form-data" id="form">
-            <div class="form-group">
-                <label class="control-label" for="q">Unggah berkas <em>paper</em> dalam bentuk PDF:</label>
-                <div>            
-                    <?php
-                        $model = new PDFUpload();
-                        echo CHtml::activeFileField($model, 'pdf', array('class'=>'filestyle','data-buttonText'=>'&nbsp;&nbsp;Cari File'));
-                    ?>
-                </div>
-            </div>
-            <div class="form-group">
-                <div>
-                    <button class="btn btn-success btn-lg" id="yw0" type="submit" name="yt0">Buat Daftar Pustaka</button>                    
-                </div>                
-            </div>
-        </form>        
+        <p id="mode-select-text">Pilih mode:</p>
+        <div class="btn-group" role="group" aria-label="...">
+            <a href="<?php echo $this->createUrl('site/manual') ?>" class="btn btn-lg btn-success mode-select"><span class="glyphicon glyphicon-list"></span>Manual</a>
+            <a href="<?php echo $this->createUrl('site/auto') ?>" class="btn btn-lg btn-warning mode-select"><span class="glyphicon glyphicon-flash"></span>Otomatis</a>
+        </div>        
         
     </div>        
 </div>
@@ -33,57 +43,21 @@
 <div class="container">    
     <div class="row">
         <div class="col-md-6">
-            <h3>Cara Penggunaan</h3>
+            <h3>Manual</h3>
             
-            <ol>
-                <li>Cari file PDF dari <em>paper</em> yang ingin dibuat sitasinya (maksimum 25 MB)</li>
-                <li>Klik tombol "Buat Daftar Pustaka"</li>
-                <li>Periksa kembali hasil yang diberikan oleh sistem</li>
-            </ol>
+            <p>
+                Pada mode ini, Anda harus memasukkan sendiri data-data terkait sumber pustaka
+                yang akan dibuat sitasinya. Sedikit lebih sulit namun hasilnya lebih pasti.
+            </p>
         </div>
 
         <div class="col-md-6">
-            <h3>Beberapa Keterbatasan</h3>
-
-            <p>Aplikasi web ini memiliki beberapa keterbatasan, antara lain</p>
-            <ul>
-                <li>Hanya untuk <em>paper</em> jurnal, prosiding, atau bab dari buku</li>
-                <li>Diutamakan <em>paper</em> berbahasa Inggris, terutama yang terindeks SCOPUS</li>
-                <li>Kapitalisasi judul harus disesuaikan secara manual</li>
-                <li>Untuk prosiding, nomor halaman harus dimasukkan sendiri</li>
-            </ul>        
+            <h3>Otomatis</h3>
+            
+            <p>
+                Pada mode ini, Anda cukup mengunggah <em>paper</em> dalam bentuk PDF dan sistem 
+                akan mencoba membuat sitasinya. Lebih mudah namun tidak selalu berhasil.
+            </p>      
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="loading" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">Harap tunggu</h4>
-            </div>
-            <div class="modal-body">
-                <p>Sedang memproses...</p>
-                <div class="progress progress-striped active" style="height: 10px">
-                  <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                  </div>
-                </div>                
-            </div>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-
-$('#form').submit(function(event){
-    if($('#PDFUpload_pdf').val() === '') {
-        event.preventDefault();
-    } else {
-        $('#loading').modal({
-            backdrop : "static",
-            keyboard : false
-        });
-    }    
-});
-
-</script>

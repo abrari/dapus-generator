@@ -17,13 +17,12 @@ $this->pageTitle=Yii::app()->name . ' - Tentang';
     </p>
     <p>
         Aplikasi web ini berusaha membantu permasalahan tersebut dengan menyediakan
-        layanan untuk membuat sitasi di daftar pustaka dengan memberikan <em>file</em>
-        PDF dari <em>paper</em> yang ingin dibuat sitasinya. Cukup dengan meng-<em>upload</em>
-        PDF dari <em>paper</em>, aplikasi akan berusaha membuat sitasi sesuai Pedoman Penulisan Karya Ilmiah IPB.
+        layanan untuk membuat sitasi di daftar pustaka dengan memasukkan data pustaka atau memberikan <em>file</em>
+        PDF dari <em>paper</em> yang ingin dibuat sitasinya. 
     </p>
     <p>
         Namun demikian, aplikasi ini tidak selalu dapat memberikan hasil. 
-        Hasil dari aplikasi juga tidak dapat dipastikan 100% benar, terutama untuk artikel prosiding. 
+        Hasil dari aplikasi juga tidak dapat dipastikan 100% benar. 
         Oleh karena itu, masih perlu dilakukan pemeriksaan secara manual terhadap 
         hasil yang diberikan oleh aplikasi.
     </p>

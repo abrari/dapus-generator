@@ -3,7 +3,7 @@
 
 <div class="jumbotron subhead">
     <div class="container">
-        <h1>Pembuatan Entri Pustaka</h1>
+        <h1>Pembuatan Sitasi Otomatis</h1>
         <p>Unggah <em>paper</em> dalam bentuk PDF, dan sistem akan mencoba membuat sitasinya.</p>
     </div>        
 </div>
