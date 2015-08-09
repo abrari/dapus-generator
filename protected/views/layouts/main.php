@@ -33,6 +33,7 @@
                                 array('label'=>'Otomatis', 'url'=>array('/site/auto')),
                             )),
                             array('label'=>'Tentang', 'url'=>array('/site/page', 'view'=>'about')),
+                            array('label'=>'FAQ', 'url'=>array('/site/page', 'view'=>'faq')),
                             array('label'=>'Unduh', 'url'=>array('/site/page', 'view'=>'download')),
                         ),
                     )

@@ -24,9 +24,4 @@ $this->pageTitle=Yii::app()->name . ' - Unduh';
     <br/>
     <br/>
     <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
 </div>
