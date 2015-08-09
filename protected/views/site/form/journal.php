@@ -19,7 +19,7 @@
         <div class="input-group">
           <input type="text" class="form-control doi-input" placeholder="DOI" id="doi-input">
           <span class="input-group-btn">
-              <input type="button" class="btn btn-primary doi-input" value="Cari" onclick="searchDOI();">
+              <input type="button" class="btn btn-primary doi-input" value="Cari" onclick="searchJournalDOI();">
           </span>
         </div><!-- /input-group -->        
     </div>
@@ -55,9 +55,9 @@
 </div><!-- form -->
 
 <script type="text/javascript">
-function searchDOI() {
+function searchJournalDOI() {
     var doi = $('#doi-input').val();
-    var url = '<?php echo $this->createUrl('site/doi') ?>?doi=' + doi;
+    var url = '<?php echo $this->createUrl('site/doi') ?>?doi=' + doi + '&context=journal';
     
     if(doi == '') return false;
     

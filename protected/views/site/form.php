@@ -6,8 +6,6 @@
 
 <?php
 /* @var $this SiteController */
-/* @var $book Book */
-/* @var $journal Journal */
 /* @var $form CActiveForm */
 ?>
 
@@ -24,7 +22,7 @@
         <?php $this->widget(
             'booster.widgets.TbTabs',
             array(
-                'type' => 'pills',
+                'type' => 'tabs',
                 'id' => 'tabs',
                 'tabs' => array(
                     array(
@@ -42,6 +40,11 @@
                         'id' => 'journal',
                         'label' => 'Jurnal',
                         'content' => $this->renderPartial('form/journal', array('journal' => $journal), true),
+                    ),
+                    array(
+                        'id' => 'proceeding',
+                        'label' => 'Prosiding',
+                        'content' => $this->renderPartial('form/proceeding', array('proceeding' => $proceeding), true),
                     )
                 )
             )

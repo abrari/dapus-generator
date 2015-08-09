@@ -175,6 +175,7 @@ class SiteController extends Controller
                         
             $book = new Book();
             $journal = new Journal();
+            $proceeding = new Proceeding();
             
             if(isset($_POST['Book'])) {
                 $book->attributes = $_POST['Book'];
@@ -194,8 +195,18 @@ class SiteController extends Controller
                 }                
             }
             
+            if(isset($_POST['Proceeding'])) {
+                $proceeding->attributes = $_POST['Proceeding'];
+             
+                if($proceeding->validate()) {
+                    $data['citation'] = $proceeding->formatCitation();
+                    $data['inline']   = $proceeding->formatInlineCitation();
+                }                
+            }            
+            
             $data['book'] = $book;
             $data['journal'] = $journal;
+            $data['proceeding'] = $proceeding;
             $this->render('form', $data);
             
         }
@@ -223,16 +234,22 @@ class SiteController extends Controller
         public function actionDoi() {
 
             $doi = Yii::app()->request->getParam('doi');
+            $context = Yii::app()->request->getParam('context');
             
-            $journal = WebAPI::searchCrossRefDOI($doi);
+            $ref = WebAPI::searchCrossRefDOI($doi);
             
-            if($journal->type == 'journal-article') {
+            if($ref->type == 'journal-article' && $context == 'journal') {
                 
-                $journal->authors = $journal->unmakeAuthors();
-                $this->renderJSON((array) $journal);
+                $ref->authors = $ref->unmakeAuthors();
+                $this->renderJSON((array) $ref);
+                
+            } else if($ref->type == 'proceedings-article' && $context == 'proceeding') {
+                
+                $ref->authors = $ref->unmakeAuthors();
+                $this->renderJSON((array) $ref);
                 
             } else {
-                throw new CHttpException(404, "Tidak ditemukan jurnal dengan DOI tersebut.");
+                throw new CHttpException(404, "Tidak ditemukan referensi dengan DOI tersebut.");
             }            
         }        
 

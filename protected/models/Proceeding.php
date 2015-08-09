@@ -12,31 +12,46 @@ class Proceeding extends Book {
     public $con_city;
     public $pages;
     
-    public function attributeNames() {
-        return array_merge(parent::attributeNames(), array(
-            'proc_name' => 'Nama konferensi',
+    public function attributeLabels() {
+        return array(
+            'authors' => 'Pengarang',
+            'year' => 'Tahun',
+            'title' => 'Judul artikel prosiding',
+            'editors' => 'Editor',
+            'pub_city' => 'Kota penerbit',
+            'pub_country' => 'Kode negara penerbit',
+            'pub' => 'Penerbit',            
+            'proc_name' => 'Nama prosiding atau konferensi',
             'con_date' => 'Tanggal konferensi',
-            'con_city' => 'Kota konferensi',
+            'con_city' => 'Kota dan negara konferensi',
             'pages' => 'Halaman',
-        ));
+        );
     }
+    
+    public function rules() {
+        return array(
+            array('authors, year, title, pub_city, pub_country, pub, proc_name, pages', 'required'),
+            array('authors, year, title, edition, editors, pub_city, pub_country, pub, proc_name, con_date, con_city, pages', 'safe'),
+            array('pub_country', 'length', 'is' => 2),
+        );
+    }    
 
     public function formatCitation() {
         $citation  = "";
         $citation .= $this->formatAuthors() . '. ';
         $citation .= $this->year . '. ';
-        $citation .= $this->title . '. ';
+        $citation .= StringHelper::sentenceCase($this->title) . '. ';
         $citation .= "Di dalam: ";
         if($this->editors) {
             $citation .= $this->formatEditors() . ', editor. ';
         }
         if($this->proc_name) {
-            $citation .= '<em>' . $this->proc_name . '</em>; ';
+            $citation .= '<em>' . StringHelper::titleCase($this->proc_name) . '</em>; ';
         } else {
             $citation .= '[Prosiding tidak diketahui]; ';
         }
         if($this->con_date != '') {
-            $citation .= $this->con_date . ', ';
+            $citation .= $this->con_date . '; ';
             $citation .= $this->con_city . '. ';
         } else {
             $citation .= '[Waktu dan tempat pertemuan tidak diketahui]. ';
